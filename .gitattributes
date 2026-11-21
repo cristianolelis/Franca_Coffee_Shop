@@ -1,0 +1,6 @@
+# O atalho e o servidor do Windows precisam de quebra de linha do Windows
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Bibliotecas de terceiros: nunca converter quebras de linha
+painel/bibliotecas/** -text

@@ -1,0 +1,11 @@
+# Dados do dono da cafeteria: fotos, campanhas e cardápios ficam só no computador dele
+dados/fotos/*
+dados/campanhas/*
+dados/cardapios/*
+!dados/*/.gitkeep
+
+# Registro local de exclusões e arquivos do sistema
+painel/registro.log
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2a1810">
+<title>Painel de Divulgação – Café Casa França</title>
+<style>
+  /* Fontes guardadas na pasta "bibliotecas" (funcionam sem internet) */
+  @font-face{font-family:"DM Sans";src:url(bibliotecas/fontes/dm-sans.woff2) format("woff2");font-weight:100 1000;font-display:swap}
+  @font-face{font-family:"Fraunces";src:url(bibliotecas/fontes/fraunces.woff2) format("woff2");font-weight:100 900;font-display:swap}
+
+  /* =====================================================================
+     DESIGN SYSTEM "CASA FRANÇA" — tema cafeteria
+     ===================================================================== */
+  :root{
+    --espresso:#2a1810; --torra:#4a2b1c; --cacau:#6e4330;
+    --caramelo:#b8742f; --caramelo-claro:#e2b071; --mel:#f6dfb8;
+    --creme:#f8efe2; --espuma:#fffaf2; --papel:#f2e8d9;
+    --linha:#e6d7c2; --linha-forte:#d2bd9f;
+    --texto:#2a1810; --texto-suave:#7a6150;
+    --verde:#1f8a4c; --verde-h:#187340; --verde-ok:#11592f; --verde-claro:#e4f3e9;
+    --perigo:#a63d2a; --perigo-claro:#f9e5df;
+    --insta:linear-gradient(120deg,#b4235a,#d9365f 45%,#e8743a);
+    --wa:#25d366; --wa-escuro:#1a9e50; --wa-claro:#e6f8ed;
+    --ig:#e1306c; --ig-claro:#fde8ef;
+    --f-titulo:"Fraunces",Georgia,"Times New Roman",serif;
+    --f-texto:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --r-sm:10px; --r-md:14px; --r-lg:20px; --r-pill:999px;
+    --sombra-1:0 1px 2px rgba(74,43,28,.08);
+    --sombra-2:0 1px 2px rgba(74,43,28,.06),0 10px 28px -12px rgba(74,43,28,.22);
+    --sombra-3:0 12px 32px -10px rgba(42,24,16,.4);
+    --foco:0 0 0 3px rgba(184,116,47,.35);
+    --graos:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23b8742f' stroke-opacity='.13' stroke-width='2' stroke-linecap='round'%3E%3Cellipse cx='34' cy='36' rx='10' ry='14' transform='rotate(35 34 36)'/%3E%3Cpath d='M27 47c5-4 4-8 7-12s6-6 7-11'/%3E%3Cellipse cx='104' cy='100' rx='10' ry='14' transform='rotate(-30 104 100)'/%3E%3Cpath d='M99 112c4-5 2-9 5-13s7-7 6-12'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:light}
+  body{margin:0;font-family:var(--f-texto);background:var(--papel) var(--graos) repeat;color:var(--texto);font-size:15px;line-height:1.5;padding-bottom:40px;-webkit-font-smoothing:antialiased}
+  svg.i{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  button{font:inherit;cursor:pointer;border:0;border-radius:var(--r-md);display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,color .15s,border-color .15s,box-shadow .15s,transform .05s}
+  button:active{transform:scale(.98)}
+  button:focus-visible,a:focus-visible,label:focus-within,summary:focus-visible{outline:none;box-shadow:var(--foco)}
+  kbd{font-family:inherit;font-size:11px;background:var(--espuma);border:1px solid var(--linha-forte);border-bottom-width:2px;border-radius:5px;padding:0 5px;color:var(--torra)}
+  textarea{width:100%;font:inherit;color:inherit;border:1px solid var(--linha-forte);border-radius:var(--r-md);padding:11px 13px;background:#fff;resize:vertical;transition:border-color .15s,box-shadow .15s}
+  input[type=text]{width:100%;font:inherit;color:inherit;border:1px solid var(--linha-forte);border-radius:var(--r-md);padding:11px 13px;background:#fff}
+  textarea::placeholder,input::placeholder{color:#a8927f}
+  textarea:focus,input[type=text]:focus{border-color:var(--caramelo);outline:none;box-shadow:var(--foco)}
+  input[type=range]{width:100%;accent-color:var(--caramelo)}
+  .oculto{display:none!important}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  /* Cabeçalho com toldo */
+  header{position:relative;z-index:20;background:var(--espresso);color:var(--creme);background-image:radial-gradient(120% 140% at 15% -60%,rgba(226,176,113,.22),transparent 60%)}
+  header::after{content:"";position:absolute;left:0;right:0;top:100%;height:10px;pointer-events:none;background:radial-gradient(circle at 10px 0,var(--espresso) 9.5px,transparent 10px) 0 0/20px 10px repeat-x}
+  .topo{max-width:1100px;margin:0 auto;padding:14px max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .marca{display:flex;align-items:center;gap:14px;min-width:0}
+  .marca > div:last-child{min-width:0}
+  .logo{width:46px;height:46px;border-radius:50%;background:var(--caramelo);color:var(--espresso);display:grid;place-items:center;flex:none;box-shadow:0 0 0 3px var(--espresso),0 0 0 4.5px var(--caramelo-claro)}
+  .logo svg.i{width:22px;height:22px;stroke-width:2.2}
+  .marca h1{font-family:var(--f-titulo);font-weight:700;font-size:21px;line-height:1.15;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .marca p{margin:2px 0 0;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--caramelo-claro);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .btn-topo{background:transparent;color:var(--creme);border:1px solid rgba(248,239,226,.25);padding:9px 13px;font-size:14px;font-weight:600;border-radius:var(--r-pill);flex:none}
+  .btn-topo:hover{background:rgba(248,239,226,.1);border-color:rgba(248,239,226,.45)}
+  .btn-topo.limpar:hover{background:var(--perigo);border-color:var(--perigo)}
+  .acoes-topo{display:flex;gap:8px;flex:none}
+  .grupo-btn{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .btn-limpar{background:transparent;color:var(--texto-suave);border:1px solid var(--linha-forte);font-weight:600;font-size:13px;padding:8px 12px;border-radius:var(--r-pill);flex:none}
+  .btn-limpar:hover{background:var(--perigo-claro);color:var(--perigo);border-color:#efc2b6}
+  .btn-limpar svg.i{width:15px;height:15px}
+  @media(max-width:899px){.btn-limpar{min-height:40px}}
+
+  /* Abas */
+  .abas{position:sticky;top:0;z-index:15;background:rgba(242,232,217,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--linha)}
+  .abas-in{max-width:1100px;margin:0 auto;padding:18px max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left));display:flex;gap:6px}
+  .aba{background:transparent;color:var(--cacau);font-weight:600;font-size:14px;padding:9px 16px;border-radius:var(--r-pill);position:relative}
+  .aba:hover{background:var(--creme)}
+  .aba[aria-selected=true]{background:var(--espresso);color:var(--creme)}
+  /* Cores típicas dos canais: verde WhatsApp e rosa Instagram */
+  .aba[data-vista="whats"] svg.i{color:var(--wa-escuro)}
+  .aba[data-vista="insta"] svg.i{color:var(--ig)}
+  .aba[data-vista="whats"][aria-selected=true]{background:var(--wa-escuro)!important;color:#fff!important}
+  .aba[data-vista="insta"][aria-selected=true]{background:var(--insta)!important;color:#fff!important}
+  .aba[aria-selected=true] svg.i{color:currentColor}
+  .btn-ir.whats{background:var(--wa-claro);border-color:#bfe9cf;color:#0f6b3a}
+  .btn-ir.whats:hover{background:#d2f2df}
+  .btn-ir.insta{background:var(--ig-claro);border-color:#f6c3d5;color:#a51d4f}
+  .btn-ir.insta:hover{background:#fbd6e3}
+  .btn-ir.whats svg.i{color:var(--wa-escuro)}
+  .btn-ir.insta svg.i{color:var(--ig)}
+  .card.canal-whats{border-top:5px solid var(--wa)}
+  .card.canal-insta{border-top:5px solid var(--ig)}
+  .card.canal-whats h2,.card.canal-whats h2 svg.i{color:#0f6b3a}
+  .card.canal-insta h2,.card.canal-insta h2 svg.i{color:#a51d4f}
+
+  main{max-width:1100px;margin:0 auto;padding:22px max(16px,env(safe-area-inset-right)) 20px max(16px,env(safe-area-inset-left))}
+  .vista{display:none}
+  .vista.ativa{display:block}
+  .grade{display:grid;gap:18px;grid-template-columns:minmax(0,1fr);align-items:start}
+  .coluna{display:grid;gap:18px;min-width:0;grid-template-columns:minmax(0,1fr)}
+  @media(min-width:900px){
+    .grade-2{grid-template-columns:minmax(0,1fr) 380px}
+    .grade-canal{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+    .fixo{position:sticky;top:84px}
+  }
+
+  /* Cartões */
+  .card{min-width:0;background:var(--espuma);border:1px solid var(--linha);border-radius:var(--r-lg);padding:20px;box-shadow:var(--sombra-2)}
+  .card-cab{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .card h2{font-family:var(--f-titulo);font-weight:700;font-size:19px;line-height:1.2;color:var(--torra);margin:0;display:flex;align-items:center;gap:12px}
+  .card h2 svg.i{color:var(--caramelo);width:20px;height:20px}
+  .num{width:30px;height:30px;border-radius:50%;background:var(--mel);color:var(--torra);display:inline-flex;align-items:center;justify-content:center;font-family:var(--f-titulo);font-weight:700;font-size:15px;flex:none;box-shadow:inset 0 0 0 1.5px var(--caramelo);outline:1.5px dashed var(--caramelo-claro);outline-offset:2px}
+  .dica{font-size:12.5px;color:var(--texto-suave)}
+  .pilha{display:grid;gap:12px}
+  .linha-flex{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+  /* Botões */
+  .btn-principal{width:100%;background:var(--wa-escuro);color:#fff;font-weight:700;font-size:17px;padding:15px;border-radius:var(--r-md);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 8px 18px -6px rgba(31,138,76,.5)}
+  .btn-principal:hover{background:var(--verde-h)}
+  .btn-principal.ok{background:var(--verde-ok)}
+  .btn-principal svg.i{width:20px;height:20px}
+  .btn-principal.insta{background:var(--insta);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 8px 18px -6px rgba(180,35,90,.45)}
+  .btn-principal.cafe{background:var(--torra);box-shadow:0 8px 18px -6px rgba(74,43,28,.45)}
+  .btn-principal.cafe:hover{background:var(--espresso)}
+  .btn-sec{background:var(--mel);color:var(--torra);border:1px solid var(--caramelo-claro);font-weight:700;font-size:13.5px;padding:9px 14px;border-radius:var(--r-pill)}
+  .btn-sec:hover{background:var(--caramelo-claro)}
+  .btn-sec.ok,.btn-claro.ok{background:var(--verde-claro);color:var(--verde);border-color:#c5e6d1}
+  .btn-claro{background:var(--mel);color:var(--torra);border:1px solid var(--caramelo-claro);font-weight:700;font-size:14px;padding:11px 12px}
+  .btn-claro:hover{background:var(--caramelo-claro)}
+  .btn-icone{background:transparent;color:var(--texto-suave);width:42px;height:42px;padding:0;flex:none;border-radius:var(--r-sm)}
+  .btn-icone:hover{background:var(--perigo-claro);color:var(--perigo)}
+  .btn-ir{width:100%;justify-content:space-between;background:var(--creme);border:1px solid var(--linha);color:var(--torra);font-weight:700;padding:12px 14px}
+  .btn-ir:hover{background:var(--mel)}
+  .btn-ir .dir{display:flex;align-items:center;gap:8px}
+
+  /* Colar do WhatsApp */
+  details.colar{background:var(--mel);border:1px solid var(--caramelo-claro);border-radius:var(--r-lg);padding:14px 18px}
+  details.colar summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:700;color:var(--torra)}
+  details.colar summary::-webkit-details-marker{display:none}
+  details.colar summary .seta{margin-left:auto;color:var(--caramelo);transition:transform .2s}
+  details.colar[open] summary .seta{transform:rotate(180deg)}
+  details.colar .corpo{display:grid;gap:10px;margin-top:12px}
+  details.colar .upload{background:var(--espuma)}
+  .ou{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--cacau);text-align:center}
+  .ou::before,.ou::after{content:"";flex:1;height:1px;background:var(--caramelo-claro)}
+  .ou span{flex:0 1 auto;max-width:80%}
+  .status-leitura{margin:0;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--torra);background:var(--espuma);border:1px solid var(--caramelo-claro);border-radius:var(--r-md);padding:10px 12px}
+  .status-leitura.ok{background:var(--verde-claro);border-color:#c5e6d1;color:var(--verde-ok)}
+  .status-leitura.erro{background:var(--perigo-claro);border-color:#efc2b6;color:var(--perigo)}
+  .girando{width:18px;height:18px;border-radius:50%;border:3px solid var(--caramelo-claro);border-top-color:var(--torra);animation:girar .8s linear infinite;flex:none}
+  @keyframes girar{to{transform:rotate(360deg)}}
+
+  /* Emojis */
+  .barra{display:flex;flex-wrap:wrap;gap:2px;align-items:center;padding:4px;background:var(--creme);border:1px solid var(--linha);border-radius:var(--r-md);margin-top:8px}
+  .emo{background:transparent;font-size:20px;width:38px;height:38px;border-radius:var(--r-sm);padding:0}
+  .emo:hover{background:var(--mel)}
+
+  .lista{display:grid;gap:14px}
+  .cardapio{border:1.5px dashed var(--caramelo-claro);border-radius:var(--r-md);padding:12px;background:var(--creme);display:grid;gap:8px}
+  .cardapio-cab{display:flex;gap:8px;align-items:center}
+  .cardapio input[type=text]{font-family:var(--f-titulo);font-weight:600;font-size:17px;color:var(--torra)}
+
+  /* Fotos */
+  .upload{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:2px dashed var(--caramelo-claro);background:var(--creme);border-radius:var(--r-md);padding:16px;cursor:pointer;text-align:center;transition:background .15s,border-color .15s;color:var(--torra)}
+  .upload:hover,.upload.arrastando{background:var(--mel);border-color:var(--caramelo)}
+  .upload svg.i{width:26px;height:26px;color:var(--caramelo)}
+  .upload strong{font-family:var(--f-titulo);font-weight:600;font-size:16px}
+  .biblioteca{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;margin-top:12px}
+  .biblioteca:empty{display:none}
+  .bib-item{position:relative}
+  .bib{position:relative;width:100%;aspect-ratio:1;border-radius:var(--r-md);overflow:hidden;background:var(--creme);border:3px solid transparent;padding:0;display:block}
+  .bib img{width:100%;height:100%;object-fit:cover;display:block}
+  .bib.sel{border-color:var(--caramelo)}
+  .bib .ordem{position:absolute;top:6px;left:6px;width:26px;height:26px;border-radius:50%;background:var(--caramelo);color:var(--espresso);font-family:var(--f-titulo);font-weight:700;font-size:14px;display:grid;place-items:center;box-shadow:0 0 0 2px #fff}
+  .bib:not(.sel) .ordem{background:rgba(255,250,242,.7);color:transparent}
+  .bib-x{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;padding:0;background:rgba(42,24,16,.72);color:#fff}
+  .bib-x svg.i{width:15px;height:15px}
+  .bib-x:hover{background:var(--perigo)}
+
+  /* Ajuste das fotos na arte */
+  .ajustes{display:grid;gap:10px;margin-top:14px}
+  .ajustes:empty{display:none}
+  .ajuste{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center;padding:10px;border:1px solid var(--linha);border-radius:var(--r-md);background:var(--creme)}
+  .ajuste .mini{position:relative;width:56px;height:56px;border-radius:10px;overflow:hidden}
+  .ajuste .mini img{width:100%;height:100%;object-fit:cover;display:block}
+  .ajuste .mini b{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--caramelo);color:var(--espresso);font-size:11px;display:grid;place-items:center}
+  .ajuste .controles{display:grid;gap:6px}
+  .ajuste .mover{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--texto-suave)}
+  .seg{display:inline-flex;background:var(--espuma);border:1px solid var(--linha);border-radius:var(--r-pill);padding:3px;gap:2px;justify-self:start}
+  .seg button{background:transparent;color:var(--cacau);font-size:13px;font-weight:600;padding:6px 12px;border-radius:var(--r-pill)}
+  .seg button[aria-pressed=true]{background:var(--torra);color:var(--creme)}
+
+  /* Escolha do modelo do anúncio */
+  .modelos-arte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .modelo-arte{flex-direction:column;align-items:stretch;justify-content:flex-start;gap:3px;padding:6px 6px 8px;background:var(--creme);border:2px solid var(--linha);border-radius:var(--r-md);text-align:left;position:relative}
+  .modelo-arte:hover{border-color:var(--caramelo-claro)}
+  .modelo-arte img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;background:var(--mel);display:block;margin-bottom:3px}
+  .modelo-arte b{font-size:12.5px;color:var(--torra);line-height:1.2}
+  .modelo-arte small{font-size:11px;color:var(--texto-suave);line-height:1.25}
+  .modelo-arte[aria-checked=true]{border-color:var(--caramelo);background:var(--mel);box-shadow:0 0 0 3px rgba(184,116,47,.3)}
+  .modelo-arte[aria-checked=true]::after{content:"✓";position:absolute;top:11px;right:11px;width:24px;height:24px;border-radius:50%;background:var(--wa-escuro);color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center;box-shadow:0 0 0 2px #fff}
+
+  /* Arte */
+  .arte-img{display:block;width:100%;height:auto;border-radius:var(--r-md);background:var(--creme);box-shadow:var(--sombra-2)}
+  .arte-img:not([src]){aspect-ratio:4/5}
+  .fixo .arte-img{width:auto;max-width:100%;max-height:70vh;margin:0 auto}
+
+  /* Passo a passo */
+  .etapas{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:e}
+  .etapa{counter-increment:e;display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;align-items:start;padding:12px;border:1px solid var(--linha);border-radius:var(--r-md);background:var(--creme);transition:background .2s,border-color .2s}
+  .etapa::before{content:counter(e);width:32px;height:32px;border-radius:50%;background:var(--mel);color:var(--torra);font-family:var(--f-titulo);font-weight:700;display:grid;place-items:center;box-shadow:inset 0 0 0 1.5px var(--caramelo)}
+  .etapa.feito{background:var(--verde-claro);border-color:#c5e6d1}
+  .etapa.feito::before{content:"✓";background:var(--verde);color:#fff;box-shadow:none}
+  .etapa > div{display:grid;gap:8px;min-width:0;padding-top:4px}
+  .etapa p{margin:0;font-size:14px;color:var(--cacau)}
+  .etapa p b{color:var(--torra)}
+
+  /* Semana */
+  .campanhas{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-top:16px}
+  .camp{background:var(--espuma);border:1px solid var(--linha);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sombra-2);display:flex;flex-direction:column}
+  .camp.atual{border-color:var(--caramelo);box-shadow:0 0 0 3px rgba(184,116,47,.3),var(--sombra-2)}
+  .camp img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--creme);display:block}
+  .camp-corpo{padding:12px 14px;display:grid;gap:6px;flex:1}
+  .camp h3{font-family:var(--f-titulo);font-size:16px;line-height:1.25;margin:0;color:var(--torra);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .meta{font-size:12px;color:var(--texto-suave)}
+  .selos{display:flex;gap:6px;flex-wrap:wrap}
+  .selo{font-size:11px;font-weight:700;padding:3px 8px;border-radius:var(--r-pill);background:var(--creme);color:var(--texto-suave);border:1px solid var(--linha)}
+  .selo.ok{background:var(--verde-claro);color:var(--verde);border-color:#c5e6d1}
+  .camp-acoes{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;padding:0 14px 14px}
+  .camp-acoes button{font-size:13px;padding:9px 8px}
+  .vazio-grande{text-align:center;padding:40px 20px;color:var(--texto-suave);grid-column:1/-1}
+
+  .toast{position:fixed;left:50%;bottom:32px;transform:translate(-50%,16px);background:var(--espresso);color:var(--creme);border-left:4px solid var(--caramelo);padding:12px 16px;border-radius:var(--r-md);font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;width:max-content;max-width:calc(100% - 32px);text-align:center;box-shadow:var(--sombra-3)}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+  .toast.erro{background:var(--perigo);border-left-color:#f3b4a6;color:#fff}
+
+  /* Celular */
+  @media(max-width:899px){
+    body{padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+    .abas{position:fixed;top:auto;bottom:0;left:0;right:0;background:rgba(255,250,242,.97);border-top:1px solid var(--linha);border-bottom:0;box-shadow:0 -6px 20px -10px rgba(42,24,16,.25)}
+    .abas-in{padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:2px}
+    .aba{flex:1;flex-direction:column;gap:2px;font-size:11.5px;padding:7px 2px;border-radius:12px}
+    .aba svg.i{width:22px;height:22px}
+    .aba[aria-selected=true]{background:var(--mel);color:var(--torra)}
+    main{padding-top:24px}
+    .card{padding:16px}
+    .card h2{font-size:18px}
+    textarea,input[type=text]{font-size:16px}
+    .barra{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+    .barra::-webkit-scrollbar{display:none}
+    .barra > *{flex:none}
+    .emo{width:42px;height:42px}
+    .seg button{padding:9px 14px}
+    .bib-x{width:36px;height:36px}
+    .toast{bottom:calc(96px + env(safe-area-inset-bottom))}
+  }
+  @media(max-width:520px){
+    .btn-topo span{display:none}.btn-topo{width:42px;height:42px;padding:0}
+    .marca{gap:12px}.logo{width:40px;height:40px}
+    .marca h1{font-size:18px}.marca p{font-size:10px;letter-spacing:.08em}
+  }
+  @media(max-width:440px){.logo{display:none}.btn-topo{width:38px;height:38px}.acoes-topo{gap:6px}}
+  @media(max-width:360px){.logo{display:none}.camp-acoes{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-coffee" viewBox="0 0 24 24"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2M10 2v2M14 2v2"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
+  <symbol id="i-new" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15h6"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-eraser" viewBox="0 0 24 24"><path d="m7 21-4.3-4.3a1 1 0 0 1 0-1.4l10-10a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4L11 21"/><path d="M22 21H7"/><path d="m5 11 9 9"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-paste" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+</svg>
+
+<header>
+  <div class="topo">
+    <div class="marca">
+      <div class="logo"><svg class="i"><use href="#i-coffee"/></svg></div>
+      <div>
+        <h1>Café Casa França</h1>
+        <p>Divulgação · WhatsApp e Instagram</p>
+      </div>
+    </div>
+    <div class="acoes-topo">
+      <button type="button" class="btn-topo limpar" data-acao="limpar-tudo" title="Limpa chamada, cardápio, fotos escolhidas e legenda"><svg class="i"><use href="#i-eraser"/></svg><span>Limpar tudo</span></button>
+      <button type="button" class="btn-topo" data-acao="salvar" title="Guarda esta campanha na aba Semana"><svg class="i"><use href="#i-save"/></svg><span>Salvar</span></button>
+      <button type="button" class="btn-topo" data-acao="nova" title="Guarda a atual na aba Semana e começa outra"><svg class="i"><use href="#i-new"/></svg><span>Nova campanha</span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="abas" aria-label="Seções">
+  <div class="abas-in" role="tablist">
+    <button type="button" class="aba" role="tab" data-vista="criar" aria-selected="true"><svg class="i"><use href="#i-edit"/></svg>Criar</button>
+    <button type="button" class="aba" role="tab" data-vista="whats" aria-selected="false"><svg class="i"><use href="#i-chat"/></svg>WhatsApp</button>
+    <button type="button" class="aba" role="tab" data-vista="insta" aria-selected="false"><svg class="i"><use href="#i-insta"/></svg>Instagram</button>
+    <button type="button" class="aba" role="tab" data-vista="semana" aria-selected="false"><svg class="i"><use href="#i-calendar"/></svg>Semana</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ======================= CRIAR ======================= -->
+  <section class="vista ativa" id="v-criar" role="tabpanel">
+    <div class="grade grade-2">
+      <div class="coluna">
+
+        <details class="colar" id="colar">
+          <summary><svg class="i" style="color:var(--caramelo)"><use href="#i-upload"/></svg>Já tem o cardápio pronto? Suba ou cole aqui e o post se monta sozinho<svg class="i seta"><use href="#i-down"/></svg></summary>
+          <div class="corpo">
+            <label class="upload" id="areaMenu">
+              <svg class="i"><use href="#i-upload"/></svg>
+              <strong>Subir cardápio</strong>
+              <span class="dica">Foto, PDF, Word (.docx) ou texto</span>
+              <input id="inputMenu" type="file" class="sr" accept="image/*,.pdf,application/pdf,.docx,.txt,.md,.csv,.rtf,text/plain">
+            </label>
+            <p class="status-leitura oculto" id="statusMenu" role="status" aria-live="polite"></p>
+            <div class="ou"><span>ou cole o texto (por exemplo, a mensagem que você mandou no WhatsApp)</span></div>
+            <label for="textoColado" class="sr">Texto do cardápio</label>
+            <textarea id="textoColado" rows="7" placeholder="☕ Bom dia! Confira o cardápio de hoje&#10;*Café da manhã*&#10;Pão na chapa – R$ 6,00&#10;Cappuccino – R$ 9,50"></textarea>
+            <div class="grupo-btn" style="flex-wrap:nowrap">
+              <button type="button" class="btn-limpar" data-acao="limpar-colado" aria-label="Limpar o texto colado" style="align-self:stretch"><svg class="i"><use href="#i-eraser"/></svg>Limpar</button>
+              <button type="button" class="btn-principal cafe" data-acao="importar"><svg class="i"><use href="#i-sparkles"/></svg><span>Montar post</span></button>
+            </div>
+          </div>
+        </details>
+
+        <section class="card" aria-labelledby="t1">
+          <div class="card-cab">
+            <h2 id="t1"><span class="num">1</span>Chamada</h2>
+            <div class="grupo-btn">
+              <button type="button" class="btn-limpar" data-acao="limpar-chamada" aria-label="Limpar a chamada"><svg class="i"><use href="#i-eraser"/></svg>Limpar</button>
+              <button type="button" class="btn-sec" data-acao="sugerir"><svg class="i"><use href="#i-sparkles"/></svg>Sugerir</button>
+            </div>
+          </div>
+          <label for="abertura" class="sr">Chamada</label>
+          <textarea id="abertura" rows="2" data-editavel placeholder="Ex: ☕ Bom dia! Saiu o cardápio de hoje 👇"></textarea>
+          <div class="barra" id="barraEmoji" aria-label="Inserir emoji">
+            <button type="button" class="emo" data-acao="emoji" data-valor="☕" aria-label="café">☕</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="🥐" aria-label="croissant">🥐</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="🍰" aria-label="bolo">🍰</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="🥪" aria-label="sanduíche">🥪</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="🍽️" aria-label="prato">🍽️</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="🔥" aria-label="fogo">🔥</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="✨" aria-label="brilho">✨</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="👇" aria-label="mão para baixo">👇</button>
+            <button type="button" class="emo" data-acao="emoji" data-valor="🤎" aria-label="coração">🤎</button>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="t2">
+          <div class="card-cab">
+            <h2 id="t2"><span class="num">2</span>Cardápio</h2>
+            <div class="grupo-btn">
+              <button type="button" class="btn-limpar" data-acao="limpar-cardapio" aria-label="Limpar o cardápio"><svg class="i"><use href="#i-eraser"/></svg>Limpar</button>
+              <button type="button" class="btn-sec" data-acao="add-cardapio"><svg class="i"><use href="#i-plus"/></svg>Seção</button>
+            </div>
+          </div>
+          <p class="dica" style="margin:-4px 0 10px">Um item por linha. Com preço: <b>Cappuccino — R$ 9,50</b></p>
+          <div id="listaCardapios" class="lista"></div>
+        </section>
+
+        <section class="card" aria-labelledby="t3">
+          <div class="card-cab">
+            <h2 id="t3"><span class="num">3</span>Fotos</h2>
+            <div class="grupo-btn">
+              <span id="contadorFotos" class="dica"></span>
+              <button type="button" class="btn-limpar" data-acao="limpar-fotos" aria-label="Desmarcar as fotos da arte" title="Tira as fotos da arte (não apaga os arquivos)"><svg class="i"><use href="#i-eraser"/></svg>Desmarcar</button>
+            </div>
+          </div>
+          <label class="upload" id="areaUpload">
+            <svg class="i"><use href="#i-image"/></svg>
+            <strong>Adicionar fotos</strong>
+            <span class="dica" id="dicaPasta">Ficam guardadas por 7 dias</span>
+            <input id="inputFotos" type="file" accept="image/*" multiple class="sr">
+          </label>
+          <div id="biblioteca" class="biblioteca"></div>
+          <p class="dica oculto" id="dicaFotos" style="margin:10px 0 0">Toque para escolher <b>até 9</b> fotos. Com mais fotos, a arte fica mais comprida.</p>
+          <div id="ajustes" class="ajustes"></div>
+        </section>
+      </div>
+
+      <aside class="coluna fixo">
+        <section class="card pilha">
+          <h2><svg class="i"><use href="#i-sparkles"/></svg>Escolha o modelo</h2>
+          <div class="modelos-arte" role="radiogroup" aria-label="Modelo do anúncio">
+            <button type="button" class="modelo-arte" data-acao="modelo-arte" data-valor="oferta" role="radio" aria-checked="true"><img data-mini="oferta" alt=""><b>Oferta relâmpago</b><small>Urgência e preço em etiqueta</small></button>
+            <button type="button" class="modelo-arte" data-acao="modelo-arte" data-valor="destaque" role="radio" aria-checked="false"><img data-mini="destaque" alt=""><b>Destaque do dia</b><small>Foto grande e selo de preço</small></button>
+            <button type="button" class="modelo-arte" data-acao="modelo-arte" data-valor="classico" role="radio" aria-checked="false"><img data-mini="classico" alt=""><b>Cardápio café</b><small>Elegante e completo</small></button>
+          </div>
+          <span class="rotulo" style="margin:4px 0 0">Seu anúncio</span>
+          <img class="arte-img" data-arte="whats" alt="Anúncio gerado">
+          <button type="button" class="btn-ir whats" data-vista="whats"><span class="dir"><svg class="i"><use href="#i-chat"/></svg>Enviar no WhatsApp</span><svg class="i"><use href="#i-arrow"/></svg></button>
+          <button type="button" class="btn-claro" data-acao="salvar"><svg class="i"><use href="#i-save"/></svg><span>Salvar na Semana</span></button>
+          <button type="button" class="btn-ir insta" data-vista="insta"><span class="dir"><svg class="i"><use href="#i-insta"/></svg>Postar no Instagram</span><svg class="i"><use href="#i-arrow"/></svg></button>
+        </section>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ======================= WHATSAPP ======================= -->
+  <section class="vista" id="v-whats" role="tabpanel">
+    <div class="grade grade-canal">
+      <section class="card pilha canal-whats">
+        <h2><svg class="i"><use href="#i-chat"/></svg>Enviar no WhatsApp</h2>
+        <ol class="etapas" id="etapasWhats"></ol>
+      </section>
+      <section class="card pilha">
+        <img class="arte-img" data-arte="whats" alt="Arte que será enviada">
+        <button type="button" class="btn-claro" data-acao="baixar"><svg class="i"><use href="#i-download"/></svg><span>Baixar arte</span></button>
+      </section>
+    </div>
+  </section>
+
+  <!-- ======================= INSTAGRAM ======================= -->
+  <section class="vista" id="v-insta" role="tabpanel">
+    <div class="grade grade-canal">
+      <section class="card pilha canal-insta">
+        <h2><svg class="i"><use href="#i-insta"/></svg>Postar no Feed — passo a passo</h2>
+        <ol class="etapas" id="etapasInsta"></ol>
+      </section>
+      <div class="coluna">
+        <section class="card pilha">
+          <div class="linha-flex">
+            <h2><svg class="i"><use href="#i-sparkles"/></svg>Legenda</h2>
+            <div class="grupo-btn">
+              <button type="button" class="btn-limpar" data-acao="limpar-legenda" aria-label="Limpar a legenda"><svg class="i"><use href="#i-eraser"/></svg>Limpar</button>
+              <button type="button" class="btn-sec" data-acao="outra-legenda"><svg class="i"><use href="#i-refresh"/></svg>Outra sugestão</button>
+            </div>
+          </div>
+          <label for="legenda" class="sr">Legenda</label>
+          <textarea id="legenda" rows="8"></textarea>
+          <span class="dica">Criada a partir do cardápio. Pode editar à vontade.</span>
+        </section>
+        <section class="card pilha">
+          <img class="arte-img" data-arte="insta" alt="Arte do post">
+          <p class="dica oculto" id="avisoInsta" style="margin:0">No Feed vão as <b>4 primeiras fotos</b>: o Instagram não aceita arte mais alta que 4:5. No WhatsApp vão todas.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SEMANA ======================= -->
+  <section class="vista" id="v-semana" role="tabpanel">
+    <section class="card">
+      <div class="linha-flex">
+        <h2><svg class="i"><use href="#i-calendar"/></svg>Últimos 7 dias</h2>
+        <span class="dica" id="resumoSemana"></span>
+      </div>
+    </section>
+    <div class="campanhas" id="listaCampanhas"></div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ================= Utilidades ================= */
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  const DIA = 864e5, SEMANA = 7 * DIA, LADO_MAX = 1600;
+  const MAX_FOTOS_ARTE = 9;  // no post do WhatsApp (a arte cresce para caber)
+  const MAX_FOTOS_INSTA = 4; // no Feed do Instagram (formato fixo 4:5)
+  const DIAS = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+  const CHAMADA_ARTE = 'Peça aqui pelo WhatsApp 📲';
+
+  const ls = {
+    get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* sem espaço/bloqueado */ } },
+  };
+  const CH = { rascunho: 'ccf2.rascunho', vista: 'ccf2.vista', migrado: 'ccf2.migrado' };
+
+  const minus = s => s ? s[0].toLocaleLowerCase('pt-BR') + s.slice(1) : s;
+  const semFormato = s => s.replace(/[*_~]/g, '');
+  const listaNatural = a => !a.length ? 'delícias fresquinhas' : a.length === 1 ? a[0] : a.slice(0, -1).join(', ') + ' e ' + a[a.length - 1];
+  const embaralhar = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+  const dataCurta = ts => { const d = new Date(ts); return `${DIAS[d.getDay()]}, ${d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} · ${d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`; };
+  const diasRestantes = ts => Math.max(0, Math.ceil((ts + SEMANA - Date.now()) / DIA));
+
+  /* ================= Banco local (fotos e campanhas) ================= */
+  let dbP = null;
+  function abrirDB() {
+    if (!dbP) dbP = new Promise((res, rej) => {
+      const r = indexedDB.open('ccf-painel', 1);
+      r.onupgradeneeded = () => {
+        const db = r.result;
+        if (!db.objectStoreNames.contains('fotos')) db.createObjectStore('fotos', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('campanhas')) db.createObjectStore('campanhas', { keyPath: 'id' });
+      };
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    });
+    return dbP;
+  }
+  async function noDB(store, modo, fn) {
+    const db = await abrirDB();
+    return new Promise((res, rej) => {
+      const t = db.transaction(store, modo);
+      let saida;
+      const req = fn(t.objectStore(store));
+      if (req) req.onsuccess = () => { saida = req.result; };
+      t.oncomplete = () => res(saida);
+      t.onerror = () => rej(t.error);
+      t.onabort = () => rej(t.error);
+    });
+  }
+  const dbTodos = s => noDB(s, 'readonly', st => st.getAll()).catch(() => []);
+  const dbPut = (s, v) => noDB(s, 'readwrite', st => st.put(v)).catch(e => console.warn('Falha ao salvar', e));
+  const dbDel = (s, id) => noDB(s, 'readwrite', st => st.delete(id)).catch(e => console.warn('Falha ao apagar', e));
+
+  /* ================= Estado ================= */
+  const novoCardapio = () => ({ id: uid(), titulo: '', itens: '' });
+  const estadoPadrao = () => ({
+    campanhaId: uid(), abertura: '', cardapios: [novoCardapio()], fotoIds: [],
+    ajustes: {},            // por foto: { modo: 'inteira' | 'preencher', foco: 0..100 }
+    modelo: 'oferta', legenda: '', legendaManual: false,
+  });
+  let estado = estadoPadrao();
+  let biblioteca = [];   // { id, blob, criadoEm, usadoEm, url }
+  let campanhas = [];
+  let alterado = false;
+
+  const temConteudo = () => !!(estado.abertura.trim() || estado.fotoIds.length || estado.cardapios.some(c => c.titulo.trim() || c.itens.trim()));
+  const ajusteDe = id => estado.ajustes[id] || { modo: 'inteira', foco: 50 };
+
+  const el = {
+    abertura: $('#abertura'), legenda: $('#legenda'), textoColado: $('#textoColado'),
+    lista: $('#listaCardapios'), biblioteca: $('#biblioteca'), ajustes: $('#ajustes'), dicaFotos: $('#dicaFotos'),
+    input: $('#inputFotos'), areaUpload: $('#areaUpload'), contadorFotos: $('#contadorFotos'),
+    toast: $('#toast'), listaCampanhas: $('#listaCampanhas'), resumoSemana: $('#resumoSemana'),
+  };
+
+  /* ================= Feedback ================= */
+  let tToast;
+  function toast(msg, tipo = '') {
+    el.toast.textContent = msg;
+    el.toast.className = 'toast on ' + tipo;
+    clearTimeout(tToast);
+    tToast = setTimeout(() => { el.toast.className = 'toast ' + tipo; }, tipo === 'erro' ? 4500 : 3800);
+  }
+  function marcarOk(btn, texto) {
+    if (!btn) return;
+    const use = $('use', btn), span = $('span', btn);
+    if (btn.dataset.orig === undefined) { btn.dataset.orig = span ? span.textContent : ''; btn.dataset.origIco = use ? use.getAttribute('href') : ''; }
+    if (use) use.setAttribute('href', '#i-check');
+    if (span) span.textContent = texto;
+    btn.classList.add('ok');
+    clearTimeout(btn._t);
+    btn._t = setTimeout(() => {
+      if (use) use.setAttribute('href', btn.dataset.origIco);
+      if (span) span.textContent = btn.dataset.orig;
+      btn.classList.remove('ok');
+      delete btn.dataset.orig; delete btn.dataset.origIco;
+    }, 1800);
+    const etapa = btn.closest('.etapa');
+    if (etapa) etapa.classList.add('feito');
+  }
+
+  /* ================= Cardápio e textos ================= */
+  function parseItem(linha) {
+    const l = semFormato(linha).replace(/^[-•·▫️◦]\s*/u, '').trim();
+    let m = l.match(/^(.*?)[\s\-–—:.]*(R\$\s?\d[\d.,]*)\s*$/i);
+    if (m && m[1].trim()) return { nome: m[1].trim(), preco: m[2].replace(/R\$\s?/i, 'R$ ') };
+    m = l.match(/^(.*?)[\s\-–—:.]+(\d+[.,]\d{2})\s*$/);
+    if (m && m[1].trim()) return { nome: m[1].trim(), preco: 'R$ ' + m[2] };
+    return { nome: l, preco: '' };
+  }
+  const itensDe = c => c.itens.split('\n').map(l => l.trim()).filter(Boolean).map(parseItem).filter(i => i.nome);
+  const todosItens = () => estado.cardapios.flatMap(itensDe).map(i => i.nome);
+
+  const PERIODOS = {
+    manha: { emoji: '☕', nome: 'café da manhã', titulo: 'Café da manhã' },
+    almoco: { emoji: '🍽️', nome: 'almoço', titulo: 'Almoço' },
+    tarde: { emoji: '🍰', nome: 'café da tarde', titulo: 'Café da tarde' },
+  };
+  function periodo() {
+    const txt = (estado.abertura + ' ' + estado.cardapios.map(c => c.titulo).join(' ')).toLowerCase();
+    if (/almo[cç]o|executivo|prato do dia/.test(txt)) return 'almoco';
+    if (/manh[aã]|bom dia/.test(txt)) return 'manha';
+    if (/tarde|lanche/.test(txt)) return 'tarde';
+    const h = new Date().getHours();
+    return h < 11 ? 'manha' : h < 15 ? 'almoco' : 'tarde';
+  }
+  function contexto() {
+    const itens = todosItens();
+    const h = new Date().getHours();
+    const dia = new Date().toLocaleDateString('pt-BR', { weekday: 'long' });
+    return {
+      destaque: itens[0] || 'Nosso café',
+      lista: listaNatural(itens.slice(0, 3).map(minus)),
+      linhas: itens.length ? itens.slice(0, 6).map(i => '▫️ ' + i).join('\n') : '▫️ Café passado na hora\n▫️ Delícias do dia',
+      saud: h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite',
+      dia: dia[0].toUpperCase() + dia.slice(1),
+      p: PERIODOS[periodo()],
+    };
+  }
+  // Textos com foco em vender: urgência, desejo e chamada clara para pedir
+  const cap = s => s ? s[0].toLocaleUpperCase('pt-BR') + s.slice(1) : s;
+  const SUGESTOES_CHAMADA = [
+    c => `🔥 Só hoje: ${minus(c.destaque)} saindo agora!\nCorre, que quando acaba, acabou`,
+    c => `😋 Bateu a fome?\nO ${c.p.nome} mais gostoso da região tá te esperando`,
+    c => `⚡ Imperdível!\n${cap(c.lista)} feitos hoje, do jeito que você ama`,
+    c => `🚨 Alerta de delícia!\n${c.destaque} fresquinho, direto pra você`,
+    c => `💥 ${c.dia} é dia de ${minus(c.destaque)}!\nGaranta o seu antes que acabe`,
+    c => `${c.p.emoji} ${c.saud}! Seu ${c.p.nome} já tá pronto\nÉ só pedir que a gente separa o seu`,
+  ];
+  const SUGESTOES_LEGENDA = [
+    c => `🔥 SÓ HOJE no Café Casa França: ${c.lista}!\n\nFeito agora, quentinho e do jeito que você ama. Mas corre: quando acaba, acabou! 🏃‍♀️💨\n\n📲 Peça aqui pelo WhatsApp e garanta o seu.`,
+    c => `😋 Bateu a fome? A gente resolve!\n\n${c.linhas}\n\n👉 Chama no WhatsApp e peça agora.\nComenta "EU QUERO" que a gente te responde! 💬`,
+    c => `🚨 ALERTA DE DELÍCIA 🚨\n${c.destaque} saindo fresquinho AGORA.\n\nMarca aqui quem vai te pagar esse café ☕😏\n📲 Peça aqui pelo WhatsApp!`,
+    c => `Você merece esse ${c.p.nome} 🤎\n${cap(c.lista)} esperando por você no Café Casa França.\n\n⏰ Quantidade limitada: peça já pelo WhatsApp 📲`,
+    c => `💥 ${c.dia} imperdível no Café Casa França!\n\n${c.linhas}\n\n✅ Feito na hora\n✅ Do jeitinho que você gosta\n📲 Peça aqui pelo WhatsApp`,
+    c => `Salva esse post 📌 e manda pra quem tá com fome!\n\nHoje tem ${c.lista} no Café Casa França.\n📲 Peça aqui pelo WhatsApp antes que acabe!`,
+    c => `${c.destaque} + um cafezinho passado na hora = felicidade ☕✨\n\nNão fica só olhando 👀\n📲 Peça aqui pelo WhatsApp!`,
+  ];
+  const MAPA_TAGS = [
+    [/cappuccino|capuccino/, '#cappuccino'], [/p[aã]o de queijo/, '#paodequeijo'], [/p[aã]o|chapa/, '#padaria'],
+    [/croissant/, '#croissant'], [/bolo|torta/, '#bolocaseiro'], [/sandu[ií]che|misto|baguete/, '#sanduiche'],
+    [/salgad|coxinha|empada|quiche/, '#salgados'], [/almo[cç]o|executivo|frango|carne|feijoada|prato/, '#comidacaseira'],
+    [/doce|brigadeiro|brownie|cookie|pudim/, '#doces'], [/suco|vitamina/, '#suconatural'], [/tapioca/, '#tapioca'],
+  ];
+  function hashtags() {
+    const txt = (todosItens().join(' ') + ' ' + estado.abertura).toLowerCase();
+    const p = periodo();
+    const t = ['#cafecasafranca', '#cafeteria', p === 'almoco' ? '#almoco' : p === 'tarde' ? '#cafedatarde' : '#cafedamanha'];
+    MAPA_TAGS.forEach(([re, tag]) => { if (re.test(txt) && !t.includes(tag)) t.push(tag); });
+    return t.slice(0, 10).join(' ');
+  }
+  let ordemLegendas = [], iLegenda = 0;
+  function gerarLegenda(proxima) {
+    if (!ordemLegendas.length || proxima && iLegenda >= ordemLegendas.length - 1) { ordemLegendas = embaralhar(SUGESTOES_LEGENDA); iLegenda = 0; }
+    else if (proxima) iLegenda++;
+    return ordemLegendas[iLegenda](contexto()) + '\n\n' + hashtags();
+  }
+  // Mantém a legenda em dia com o cardápio, a menos que a pessoa tenha editado
+  function atualizarLegendaAuto() {
+    if (estado.legendaManual) return;
+    estado.legenda = temConteudo() ? gerarLegenda(false) : '';
+    if (document.activeElement !== el.legenda) el.legenda.value = estado.legenda;
+  }
+
+  /* ================= Colar do WhatsApp ================= */
+  function importarDoWhats(texto) {
+    const linhas = texto.replace(/\r/g, '').split('\n').map(l => l.trim());
+    const temPreco = l => /R\$\s?\d|\d+[.,]\d{2}\s*$/.test(l);
+    const temMarcador = l => /^([-•·◦▫️✅]|\d+[.)]\s)/u.test(l);
+    const ehTitulo = l => !temPreco(l) && (/^\*[^*]+\*:?$/.test(l) || /:$/.test(l) || (l.length <= 40 && /\p{L}/u.test(l) && l === l.toLocaleUpperCase('pt-BR')));
+    const ehChamadaFinal = l => /pe[çc]a|pedido|whats|entreg|encomend|ligue|chama/i.test(l);
+    const limparTitulo = l => semFormato(l).replace(/:$/, '').trim();
+    const abertura = [], secoes = [];
+    let atual = null;
+    for (let i = 0; i < linhas.length; i++) {
+      const l = linhas[i];
+      if (!l) continue;
+      // Título seguido de itens vira seção (mesmo sendo a 1ª linha)
+      const prox = linhas.slice(i + 1).find(Boolean) || '';
+      const proxEhItem = temPreco(prox) || temMarcador(prox);
+      if (ehTitulo(l) && (abertura.length || secoes.length || proxEhItem)) { atual = { titulo: limparTitulo(l), itens: [] }; secoes.push(atual); continue; }
+      if (temPreco(l) || temMarcador(l) || (atual && !ehChamadaFinal(l))) {
+        if (!atual) { atual = { titulo: '', itens: [] }; secoes.push(atual); }
+        atual.itens.push(semFormato(l).replace(/^([-•·◦▫️]|\d+[.)])\s*/u, ''));
+        continue;
+      }
+      if (!secoes.length && abertura.length < 3) abertura.push(l);
+    }
+    return {
+      abertura: abertura.join('\n'),
+      cardapios: secoes.filter(s => s.titulo || s.itens.length).map(s => ({ id: uid(), titulo: s.titulo, itens: s.itens.join('\n') })),
+    };
+  }
+
+  /* ================= Subir cardápio (foto, PDF, Word, texto) =================
+     Tudo é lido no próprio computador, sem internet e sem serviço pago.
+     As bibliotecas ficam na pasta "bibliotecas" e só carregam quando usadas. */
+  const abs = p => new URL(p, location.href).href;
+  const LIBS = {
+    ocr: 'bibliotecas/leitura-foto/tesseract.min.js',
+    ocrWorker: 'bibliotecas/leitura-foto/worker.min.js',
+    ocrCore: 'bibliotecas/leitura-foto/',
+    ocrIdioma: 'bibliotecas/leitura-foto/idioma',
+    pdf: 'bibliotecas/leitura-pdf/pdf.min.js',
+    pdfWorker: 'bibliotecas/leitura-pdf/pdf.worker.min.js',
+    docx: 'bibliotecas/leitura-word/mammoth.browser.min.js',
+  };
+  // Aberto direto pelo arquivo (sem o atalho "Abrir Painel"): o navegador limita algumas funções
+  const porArquivo = location.protocol === 'file:';
+  const scripts = {};
+  function carregarScript(url) {
+    if (!scripts[url]) scripts[url] = new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = url; s.async = true;
+      s.onload = res;
+      s.onerror = () => { delete scripts[url]; s.remove(); rej(new Error('sem-biblioteca')); };
+      document.head.append(s);
+    });
+    return scripts[url];
+  }
+
+  const statusMenu = $('#statusMenu');
+  function status(msg, tipo = 'carregando') {
+    statusMenu.className = 'status-leitura' + (tipo === 'carregando' ? '' : ' ' + tipo);
+    statusMenu.innerHTML = (tipo === 'carregando' ? '<span class="girando" aria-hidden="true"></span>' : tipo === 'ok' ? '✓ ' : '⚠️ ') + '<span></span>';
+    $('span:last-child', statusMenu).textContent = msg;
+  }
+
+  // Leitura de texto em imagens (OCR) em português
+  let ocrWorker = null, rotuloOCR = 'Lendo';
+  async function lerImagens(imagens) {
+    if (porArquivo) throw new Error('precisa-atalho');
+    await carregarScript(LIBS.ocr);
+    if (!ocrWorker) {
+      status('Preparando a leitura…');
+      ocrWorker = await Tesseract.createWorker('por', 1, {
+        workerPath: abs(LIBS.ocrWorker), corePath: abs(LIBS.ocrCore), langPath: abs(LIBS.ocrIdioma),
+        workerBlobURL: false, gzip: true,
+        logger: m => { if (m.status === 'recognizing text') status(`${rotuloOCR}… ${Math.round(m.progress * 100)}%`); },
+      });
+    }
+    let texto = '';
+    for (let i = 0; i < imagens.length; i++) {
+      rotuloOCR = imagens.length > 1 ? `Lendo página ${i + 1} de ${imagens.length}` : 'Lendo a foto';
+      const { data } = await ocrWorker.recognize(imagens[i]);
+      texto += data.text + '\n';
+    }
+    return texto;
+  }
+  // Aumenta, deixa em tons de cinza e reforça o contraste: melhora a leitura
+  async function prepararParaOCR(blob) {
+    const img = await carregarBitmap(blob);
+    const [w, h] = dims(img);
+    let s = Math.min(2400, Math.max(1600, w)) / w;
+    if (h * s > 6000) s = 6000 / h;
+    const c = document.createElement('canvas');
+    c.width = Math.round(w * s); c.height = Math.round(h * s);
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+    if ('filter' in ctx) ctx.filter = 'grayscale(1) contrast(1.35)';
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    if (img.close) img.close();
+    return c;
+  }
+
+  async function lerPDF(arquivo) {
+    await carregarScript(LIBS.pdf);
+    // Pelo arquivo direto, o leitor roda na própria página (sem "worker")
+    if (porArquivo) await carregarScript(LIBS.pdfWorker);
+    pdfjsLib.GlobalWorkerOptions.workerSrc = abs(LIBS.pdfWorker);
+    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await arquivo.arrayBuffer()) }).promise;
+    const paginas = Math.min(pdf.numPages, 5);
+    let texto = '';
+    for (let p = 1; p <= paginas; p++) {
+      status(`Lendo o PDF (página ${p} de ${paginas})…`);
+      const page = await pdf.getPage(p);
+      const tc = await page.getTextContent();
+      // Junta os pedaços de texto que estão na mesma altura (mesma linha)
+      const linhas = [];
+      tc.items.filter(it => it.str && it.str.trim()).forEach(it => {
+        const y = it.transform[5], x = it.transform[4];
+        let l = linhas.find(li => Math.abs(li.y - y) < 4);
+        if (!l) { l = { y, partes: [] }; linhas.push(l); }
+        l.partes.push({ x, s: it.str });
+      });
+      linhas.sort((a, b) => b.y - a.y);
+      texto += linhas.map(l => l.partes.sort((a, b) => a.x - b.x).map(o => o.s).join(' ')).join('\n') + '\n';
+    }
+    // PDF escaneado (é só imagem): lê como foto
+    if (texto.replace(/\s/g, '').length < 20) {
+      const imgs = [];
+      for (let p = 1; p <= Math.min(pdf.numPages, 3); p++) {
+        status(`Preparando a página ${p} do PDF…`);
+        const page = await pdf.getPage(p);
+        const vp = page.getViewport({ scale: 2.2 });
+        const c = document.createElement('canvas');
+        c.width = vp.width; c.height = vp.height;
+        await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+        imgs.push(c);
+      }
+      return { texto: await lerImagens(imgs), ocr: true };
+    }
+    return { texto, ocr: false };
+  }
+
+  async function lerWord(arquivo) {
+    await carregarScript(LIBS.docx);
+    status('Lendo o documento…');
+    const r = await mammoth.extractRawText({ arrayBuffer: await arquivo.arrayBuffer() });
+    return r.value;
+  }
+
+  function lerRTF(t) {
+    return t.replace(/\\'([0-9a-f]{2})/gi, (m, h) => String.fromCharCode(parseInt(h, 16)))
+      .replace(/\\par[d]?/g, '\n').replace(/\{\\\*[^{}]*\}/g, '')
+      .replace(/\\[a-z]+-?\d* ?/gi, '').replace(/[{}]/g, '');
+  }
+
+  // Corrige erros comuns de leitura e tira os pontilhados dos cardápios
+  function limparTextoLido(t) {
+    return t.replace(/\r/g, '')
+      .replace(/\bR\s?[S5s$]\s?\.?\s?(?=\d)/g, 'R$ ')
+      .replace(/[.·…_]{3,}/g, ' – ')
+      .replace(/[ \t]{2,}/g, ' ')
+      .split('\n').map(l => l.trim())
+      .filter(l => l.length > 2 && /[\p{L}\p{N}]/u.test(l))
+      .join('\n');
+  }
+
+  async function subirCardapio(arquivo) {
+    if (!arquivo) return;
+    const nome = arquivo.name.toLowerCase();
+    const ext = nome.split('.').pop();
+    $('#colar').open = true;
+    try {
+      let texto = '', ocr = false;
+      if (arquivo.type.startsWith('image/') || /^(jpe?g|png|webp|gif|bmp|heic|heif)$/.test(ext)) {
+        status('Abrindo a foto…');
+        let img;
+        try { img = await prepararParaOCR(arquivo); }
+        catch { throw new Error('foto-invalida'); }
+        texto = await lerImagens([img]); ocr = true;
+      } else if (ext === 'pdf' || arquivo.type === 'application/pdf') {
+        ({ texto, ocr } = await lerPDF(arquivo));
+      } else if (ext === 'docx') {
+        texto = await lerWord(arquivo);
+      } else if (ext === 'doc' || ext === 'odt' || ext === 'pages') {
+        throw new Error('formato-antigo');
+      } else if (ext === 'rtf') {
+        texto = lerRTF(await arquivo.text());
+      } else {
+        texto = await arquivo.text();
+      }
+      texto = limparTextoLido(texto);
+      if (!texto) throw new Error('vazio');
+      el.textoColado.value = texto;
+      armazem.guardarCardapio(arquivo);
+      status(ocr
+        ? 'Cardápio lido! Confira o texto abaixo (principalmente os preços), corrija se precisar e toque em “Montar post”.'
+        : 'Cardápio lido! Confira o texto abaixo e toque em “Montar post”.', 'ok');
+      el.textoColado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (e) {
+      console.warn(e);
+      const msg = {
+        'sem-biblioteca': 'Faltam arquivos da pasta “painel/bibliotecas”. Descompacte o pacote completo e abra de novo.',
+        'precisa-atalho': 'Para ler fotos, abra o painel pelo atalho “Abrir Painel”. Ou cole o texto do cardápio abaixo.',
+        'formato-antigo': 'Esse formato não dá para ler. No Word, use “Salvar como” .docx ou PDF e tente de novo.',
+        'foto-invalida': 'Não consegui abrir essa foto. Tente tirar um print da tela ou salvar como JPG.',
+        'vazio': 'Não encontrei texto nesse arquivo. Tente uma foto mais nítida, de frente e bem iluminada.',
+      }[e.message] || 'Não consegui ler esse arquivo. Tente outro formato ou cole o texto abaixo.';
+      status(msg, 'erro');
+    }
+  }
+
+  const inputMenu = $('#inputMenu'), areaMenu = $('#areaMenu');
+  inputMenu.addEventListener('change', () => { subirCardapio(inputMenu.files[0]); inputMenu.value = ''; });
+  ['dragenter', 'dragover'].forEach(ev => areaMenu.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); areaMenu.classList.add('arrastando'); }));
+  ['dragleave', 'drop'].forEach(ev => areaMenu.addEventListener(ev, () => areaMenu.classList.remove('arrastando')));
+  areaMenu.addEventListener('drop', e => { e.preventDefault(); e.stopPropagation(); if (e.dataTransfer && e.dataTransfer.files[0]) subirCardapio(e.dataTransfer.files[0]); });
+
+  /* ================= Fotos ================= */
+  async function carregarBitmap(blob) {
+    if ('createImageBitmap' in window) {
+      try { return await createImageBitmap(blob, { imageOrientation: 'from-image' }); } catch { /* usa o método abaixo */ }
+    }
+    return new Promise((res, rej) => {
+      const url = URL.createObjectURL(blob), img = new Image();
+      img.onload = () => { URL.revokeObjectURL(url); res(img); };
+      img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Imagem inválida')); };
+      img.src = url;
+    });
+  }
+  const canvasParaBlob = (c, tipo, q) => new Promise((res, rej) => c.toBlob(b => (b ? res(b) : rej(new Error('Falha ao gerar imagem'))), tipo, q));
+  async function reduzir(blob, max, tipo = 'image/jpeg', q = 0.86) {
+    const img = await carregarBitmap(blob);
+    const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+    const s = Math.min(1, max / Math.max(w, h));
+    const c = document.createElement('canvas');
+    c.width = Math.round(w * s); c.height = Math.round(h * s);
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    if (img.close) img.close();
+    return canvasParaBlob(c, tipo, q);
+  }
+  const bitmaps = new Map();
+  async function bitmapDe(id) {
+    if (bitmaps.has(id)) return bitmaps.get(id);
+    const f = biblioteca.find(x => x.id === id);
+    if (!f) return null;
+    try {
+      if (!f.blob) f.blob = await (await fetch(f.url, { cache: 'no-store' })).blob(); // foto da pasta "dados/fotos"
+      const b = await carregarBitmap(f.blob); bitmaps.set(id, b); return b;
+    } catch { return null; }
+  }
+  const idadeFoto = f => Math.max(f.criadoEm, f.usadoEm || 0);
+  const registroFoto = f => ({ id: f.id, blob: f.blob, criadoEm: f.criadoEm, usadoEm: f.usadoEm || 0 });
+
+  /* ================= Onde tudo fica guardado =================
+     Pelo atalho "Abrir Painel": em pastas comuns dentro de "dados" (fácil de ver e copiar):
+       dados/fotos/        → as fotos (pode colocar fotos direto aqui também)
+       dados/campanhas/    → uma pasta por campanha: arte do WhatsApp, arte do Instagram, legenda
+       dados/cardapios/    → os cardápios enviados (foto, PDF, Word…)
+     Abrindo o index.html direto: fica guardado no próprio navegador. */
+  let usaPastas = false;
+  const api = (caminho, opcoes) => fetch(caminho, { cache: 'no-store', ...opcoes }).then(r => { if (!r.ok) throw new Error('api ' + r.status); return r; });
+  const qs = obj => Object.entries(obj).map(([k, v]) => k + '=' + encodeURIComponent(v)).join('&');
+  const carimbo = (ts = Date.now()) => { const d = new Date(ts), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}`; };
+  const semAcento = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const slug = s => semAcento(semFormato(s)).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'campanha';
+  const novoIdFoto = () => usaPastas ? `${carimbo()}_${uid().slice(-4)}.jpg` : uid();
+  async function detectarPastas() {
+    if (!/^https?:$/.test(location.protocol)) return false;
+    try { return (await (await api('api/status')).json()).pastas === true; } catch { return false; }
+  }
+  const urlMiniatura = c => `/dados/campanhas/${encodeURIComponent(c.pasta)}/miniatura.jpg?v=${c.atualizadoEm}`;
+  const armazem = {
+    async fotos() {
+      if (!usaPastas) return (await dbTodos('fotos')).map(f => ({ ...f, url: URL.createObjectURL(f.blob) }));
+      const lista = await (await api('api/fotos')).json();
+      return lista.map(f => ({ id: f.nome, url: f.url, criadoEm: f.data, usadoEm: f.usado, blob: null }));
+    },
+    salvarFoto: f => usaPastas ? api('api/fotos?' + qs({ nome: f.id }), { method: 'POST', body: f.blob }) : dbPut('fotos', registroFoto(f)),
+    apagarFoto: id => usaPastas ? api('api/fotos?' + qs({ nome: id }), { method: 'DELETE' }) : dbDel('fotos', id),
+    usarFoto: f => usaPastas ? api('api/fotos/usar?' + qs({ nome: f.id }), { method: 'POST' }) : dbPut('fotos', registroFoto(f)),
+    async campanhas() {
+      if (!usaPastas) return dbTodos('campanhas');
+      const lista = await (await api('api/campanhas')).json();
+      return lista.map(x => { const c = { ...x.dados, pasta: x.pasta }; c.thumbUrl = urlMiniatura(c); return c; });
+    },
+    async salvarCampanha(reg) {
+      if (!usaPastas) return dbPut('campanhas', reg);
+      const enviar = (arquivo, body) => api('api/campanhas?' + qs({ id: reg.pasta, arquivo }), { method: 'POST', body });
+      const { thumb, thumbUrl, ...dados } = reg;
+      await enviar('campanha.json', new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' }));
+      if (thumb) await enviar('miniatura.jpg', thumb);
+      await enviar('arte-whatsapp.png', await obterArte('whats'));
+      await enviar('arte-instagram.png', await obterArte('insta'));
+      await enviar('legenda-instagram.txt', new Blob([reg.dados.legenda || ''], { type: 'text/plain' }));
+      reg.thumbUrl = urlMiniatura(reg);
+    },
+    apagarCampanha: reg => usaPastas ? api('api/campanhas?' + qs({ id: reg.pasta }), { method: 'DELETE' }) : dbDel('campanhas', reg.id),
+    guardarCardapio(arquivo) {
+      if (!usaPastas) return;
+      const nome = carimbo() + '_' + (semAcento(arquivo.name).replace(/[^\w.-]+/g, '-') || 'cardapio');
+      api('api/cardapios?' + qs({ nome }), { method: 'POST', body: arquivo }).catch(e => console.warn(e));
+    },
+  };
+
+  // Fotos colocadas direto na pasta "dados/fotos" aparecem ao voltar para o painel
+  async function recarregarFotos() {
+    if (!usaPastas) return;
+    try {
+      const novas = await armazem.fotos();
+      const ids = new Set(novas.map(f => f.id));
+      const atuais = new Map(biblioteca.map(f => [f.id, f]));
+      const mudou = novas.length !== biblioteca.length || novas.some(f => !atuais.has(f.id));
+      if (!mudou) return;
+      biblioteca = novas.map(f => atuais.get(f.id) || f).sort((a, b) => b.criadoEm - a.criadoEm);
+      estado.fotoIds = estado.fotoIds.filter(id => ids.has(id));
+      renderFotos(); invalidarArte();
+    } catch (e) { console.warn(e); }
+  }
+  window.addEventListener('focus', recarregarFotos);
+
+  async function adicionarArquivos(lista) {
+    const arquivos = [...lista].filter(f => f.type.startsWith('image/'));
+    if (!arquivos.length) return;
+    toast(arquivos.length > 1 ? `Preparando ${arquivos.length} fotos…` : 'Preparando foto…');
+    let falhas = 0;
+    for (const arq of arquivos) {
+      try {
+        const blob = await reduzir(arq, LADO_MAX);
+        const f = { id: novoIdFoto(), blob, criadoEm: Date.now(), usadoEm: 0, url: URL.createObjectURL(blob) };
+        await armazem.salvarFoto(f);
+        biblioteca.unshift(f);
+        if (estado.fotoIds.length < MAX_FOTOS_ARTE) estado.fotoIds.push(f.id);
+      } catch (e) { console.warn(e); falhas++; }
+    }
+    renderFotos(); mudou();
+    toast(falhas ? `${falhas} foto(s) não puderam ser abertas` : 'Foto(s) adicionada(s) ✅', falhas ? 'erro' : '');
+  }
+  function alternarFoto(id) {
+    const i = estado.fotoIds.indexOf(id);
+    if (i >= 0) estado.fotoIds.splice(i, 1);
+    else {
+      if (estado.fotoIds.length >= MAX_FOTOS_ARTE) { toast(`A arte usa até ${MAX_FOTOS_ARTE} fotos. Desmarque uma antes.`, 'erro'); return; }
+      estado.fotoIds.push(id);
+    }
+    renderFotos(); mudou();
+  }
+  async function apagarFoto(id) {
+    if (!confirm(usaPastas ? 'Apagar esta foto?\n\nEla vai para a Lixeira do Windows (dá para recuperar).' : 'Apagar esta foto?')) return;
+    const f = biblioteca.find(x => x.id === id);
+    try { await armazem.apagarFoto(id); } catch { toast('Não consegui apagar a foto.', 'erro'); return; }
+    if (f && f.url.startsWith('blob:')) URL.revokeObjectURL(f.url);
+    biblioteca = biblioteca.filter(x => x.id !== id);
+    bitmaps.delete(id);
+    estado.fotoIds = estado.fotoIds.filter(x => x !== id);
+    delete estado.ajustes[id];
+    renderFotos(); mudou();
+  }
+
+  /* ================= Arte: 3 modelos de anúncio =================
+     Tudo é desenhado no próprio navegador. 'whats' cresce conforme o conteúdo;
+     'insta' tem tamanho fixo do Feed (1080×1350, 4:5). */
+  const W = 1080;
+  const MODELOS_ARTE = ['oferta', 'destaque', 'classico'];
+  const EMOJI = '"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji"';
+  const fonte = (peso, tam, fam) => `${peso} ${Math.round(tam)}px ${fam === 't' ? 'Fraunces, Georgia' : '"DM Sans", system-ui, "Segoe UI"'}, ${EMOJI}, sans-serif`;
+  let fontesProntas = null;
+  const carregarFontes = () => fontesProntas || (fontesProntas = Promise.all([
+    document.fonts.load('700 60px Fraunces'), document.fonts.load('500 30px "DM Sans"'),
+    document.fonts.load('700 30px "DM Sans"'), document.fonts.load('900 30px "DM Sans"'),
+  ]).catch(() => {}));
+  const CTA = 'Peça aqui pelo WhatsApp 📲';
+
+  function quebrar(ctx, texto, max) {
+    const palavras = texto.split(/\s+/).filter(Boolean), linhas = [];
+    let atual = '';
+    for (const p of palavras) {
+      const teste = atual ? atual + ' ' + p : p;
+      if (ctx.measureText(teste).width <= max || !atual) atual = teste;
+      else { linhas.push(atual); atual = p; }
+    }
+    if (atual) linhas.push(atual);
+    return linhas;
+  }
+  const cortar = (linhas, n) => linhas.length <= n ? linhas : linhas.slice(0, n).map((l, i) => i === n - 1 ? l.replace(/\s*\S*$/, '…') : l);
+  function ajustarTitulo(ctx, texto, largura, maxL, tMax, tMin, peso, fam) {
+    let t = tMax, l = [];
+    for (; t >= tMin; t -= 2) { ctx.font = fonte(peso, t, fam); l = quebrar(ctx, texto, largura); if (l.length <= maxL) return { t, linhas: l }; }
+    ctx.font = fonte(peso, tMin, fam);
+    return { t: tMin, linhas: cortar(quebrar(ctx, texto, largura), maxL) };
+  }
+  function caminhoArred(ctx, x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  const dims = img => [img.naturalWidth || img.width, img.naturalHeight || img.height];
+  function novaTela(H, fundo) {
+    const c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = fundo; ctx.fillRect(0, 0, W, H);
+    return { c, ctx };
+  }
+  const espacar = (ctx, px) => { if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px'; };
+  const dataArte = () => new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+
+  // Preencher: corta o excesso; "foco" escolhe que parte aparece
+  function preencher(ctx, img, x, y, w, h, foco) {
+    const [iw, ih] = dims(img);
+    const s = Math.max(w / iw, h / ih), sw = w / s, sh = h / s;
+    ctx.drawImage(img, (iw - sw) * foco / 100, (ih - sh) * foco / 100, sw, sh, x, y, w, h);
+  }
+  // Inteira: mostra a foto toda, com fundo desfocado da própria foto nas sobras
+  function inteira(ctx, img, x, y, w, h, fundo) {
+    const [iw, ih] = dims(img);
+    ctx.fillStyle = fundo; ctx.fillRect(x, y, w, h);
+    if ('filter' in ctx) {
+      ctx.save(); ctx.filter = 'blur(26px) brightness(0.9)'; ctx.globalAlpha = 0.7;
+      preencher(ctx, img, x - 30, y - 30, w + 60, h + 60, 50);
+      ctx.restore();
+    }
+    const s = Math.min(w / iw, h / ih), dw = iw * s, dh = ih * s;
+    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  }
+  const desenharFoto = (ctx, f, x, y, w, h, fundo) => f.aj.modo === 'preencher' ? preencher(ctx, f.img, x, y, w, h, f.aj.foco) : inteira(ctx, f.img, x, y, w, h, fundo);
+
+  const filasDe = n => ({ 4: [2, 2], 5: [2, 3], 6: [3, 3], 7: [2, 2, 3], 8: [2, 3, 3], 9: [3, 3, 3] })[n] || [n];
+  function alturaFotosLivre(fotos, Wc) {
+    const n = fotos.length, g = 14;
+    if (!n) return 0;
+    if (n === 1) {
+      const [iw, ih] = dims(fotos[0].img);
+      return fotos[0].aj.modo === 'inteira' ? Math.min(1000, Math.max(420, Wc * ih / iw)) : 700;
+    }
+    if (n === 2) return 560;
+    if (n === 3) return 640;
+    const filas = filasDe(n);
+    return filas.reduce((s, k) => s + ((Wc - g * (k - 1)) / k) * 0.92, 0) + g * (filas.length - 1);
+  }
+  function colagem(ctx, fotos, x, y, Wc, Hc, fundo, moldura) {
+    const g = moldura ? 20 : 14, n = fotos.length, R = [];
+    if (n === 1) {
+      const { img, aj } = fotos[0];
+      if (aj.modo === 'inteira') {
+        const [iw, ih] = dims(img);
+        const s = Math.min(Wc / iw, Hc / ih), w = iw * s, h = ih * s;
+        R.push([x + (Wc - w) / 2, y + (Hc - h) / 2, w, h]);
+      } else R.push([x, y, Wc, Hc]);
+    }
+    else if (n === 2) { const cw = (Wc - g) / 2; R.push([x, y, cw, Hc], [x + cw + g, y, cw, Hc]); }
+    else if (n === 3) { const bw = (Wc - g) * 0.58, sw = Wc - g - bw, sh = (Hc - g) / 2; R.push([x, y, bw, Hc], [x + bw + g, y, sw, sh], [x + bw + g, y + sh + g, sw, sh]); }
+    else {
+      const filas = filasDe(n), rh = (Hc - g * (filas.length - 1)) / filas.length;
+      let yy = y;
+      filas.forEach(k => {
+        const cw = (Wc - g * (k - 1)) / k;
+        for (let j = 0; j < k; j++) R.push([x + j * (cw + g), yy, cw, rh]);
+        yy += rh + g;
+      });
+    }
+    R.forEach((r, i) => {
+      if (moldura) { caminhoArred(ctx, r[0] - 7, r[1] - 7, r[2] + 14, r[3] + 14, 30); ctx.fillStyle = moldura; ctx.fill(); }
+      ctx.save(); caminhoArred(ctx, ...r, 24); ctx.clip();
+      desenharFoto(ctx, fotos[i], ...r, fundo);
+      ctx.restore();
+    });
+  }
+
+  // Mede (e, se pedir, desenha) o cardápio. P.pill = preço em etiqueta colorida.
+  function blocoMenu(ctx, secoes, s, x, Wb, y, P, desenhar) {
+    let yy = y;
+    const lh = s * (P.pill ? 1.52 : 1.34), th = s * 1.3;
+    secoes.forEach((sec, si) => {
+      if (si > 0) yy += s * 0.85;
+      if (sec.titulo) {
+        ctx.font = fonte(P.pesoSecao || 700, s * 1.12, P.famSecao || 't');
+        const tit = P.maiusc ? sec.titulo.toLocaleUpperCase('pt-BR') : sec.titulo;
+        quebrar(ctx, tit, Wb).forEach(t => {
+          if (desenhar) { ctx.fillStyle = P.secao || P.destaque; ctx.textAlign = 'left'; ctx.fillText(t, x, yy + th * 0.78); }
+          yy += th;
+        });
+        yy += s * 0.2;
+      }
+      sec.itens.forEach(it => {
+        ctx.font = fonte(800, s * 0.96, 's');
+        const pw = it.preco ? ctx.measureText(it.preco).width : 0;
+        const larguraPreco = it.preco ? (P.pill ? pw + s * 0.9 : pw) : 0;
+        ctx.font = fonte(500, s, 's');
+        const recuo = s * 0.75;
+        const linhas = quebrar(ctx, it.nome, Wb - recuo - (larguraPreco ? larguraPreco + s * 1.1 : 0));
+        linhas.forEach((t, li) => {
+          if (desenhar) {
+            const base = yy + lh * 0.7;
+            if (li === 0 && !it.extra) { ctx.fillStyle = P.marcador || P.destaque; ctx.beginPath(); ctx.arc(x + s * 0.24, base - s * 0.32, s * 0.12, 0, Math.PI * 2); ctx.fill(); }
+            ctx.fillStyle = it.extra ? P.suave : P.texto; ctx.textAlign = 'left'; ctx.font = fonte(500, s, 's');
+            ctx.fillText(t, x + recuo, base);
+            if (li === linhas.length - 1 && it.preco) {
+              ctx.font = fonte(800, s * 0.96, 's');
+              if (P.pill) {
+                const ph = s * 1.22, px = x + Wb - larguraPreco, py = base - s * 0.92;
+                caminhoArred(ctx, px, py, larguraPreco, ph, ph / 2); ctx.fillStyle = P.pill; ctx.fill();
+                ctx.fillStyle = P.pillTexto; ctx.textAlign = 'center'; ctx.fillText(it.preco, px + larguraPreco / 2, base);
+              } else {
+                const tw = (ctx.font = fonte(500, s, 's'), ctx.measureText(t).width);
+                ctx.font = fonte(800, s * 0.96, 's'); ctx.textAlign = 'right'; ctx.fillStyle = P.preco || P.titulo;
+                ctx.fillText(it.preco, x + Wb, base);
+                ctx.fillStyle = P.linha;
+                for (let d = x + recuo + tw + s * 0.45; d < x + Wb - pw - s * 0.4; d += s * 0.42) { ctx.beginPath(); ctx.arc(d, base - s * 0.1, s * 0.05, 0, Math.PI * 2); ctx.fill(); }
+              }
+              ctx.textAlign = 'left';
+            }
+          }
+          yy += lh;
+        });
+      });
+    });
+    return yy - y;
+  }
+  // Diminui a letra até caber; se ainda não couber, resume o fim com "e muito mais!"
+  function ajustarMenu(ctx, secoes, largura, disp, P) {
+    let s = 40, alt = blocoMenu(ctx, secoes, s, 0, largura, 0, P, false);
+    while (alt > disp && s > 22) { s -= 2; alt = blocoMenu(ctx, secoes, s, 0, largura, 0, P, false); }
+    while (alt > disp) {
+      const sec = [...secoes].reverse().find(x => x.itens.filter(i => !i.extra).length > 1);
+      if (!sec) break;
+      sec.itens = sec.itens.filter(i => !i.extra).slice(0, -1);
+      const fim = secoes[secoes.length - 1];
+      fim.itens = fim.itens.filter(i => !i.extra).concat([{ nome: 'e muito mais! ✨', preco: '', extra: true }]);
+      alt = blocoMenu(ctx, secoes, s, 0, largura, 0, P, false);
+    }
+    return { s, alt };
+  }
+  // Reparte a altura: "flex" é o bloco de fotos, que cresce ou encolhe
+  function planejar(insta, fixo, temFlex, flexPref, menuMedir, fMin, fMax) {
+    if (insta) {
+      const H = 1350;
+      return { H, flex: temFlex ? Math.round(Math.max(fMin, Math.min(fMax, H - fixo - menuMedir(34)))) : 0 };
+    }
+    let flex = temFlex ? flexPref : 0;
+    const menu = menuMedir(38), nat = fixo + flex + menu;
+    if (temFlex && nat < 1350) flex = Math.min(flex + (1350 - nat), flex * 1.6);
+    return { H: Math.max(1350, Math.min(4200, Math.round(fixo + flex + menu))), flex: Math.round(flex) };
+  }
+  function estrela(ctx, cx, cy, rFora, rDentro, pontas, cor, giro) {
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(giro);
+    ctx.beginPath();
+    for (let i = 0; i < pontas * 2; i++) { const r = i % 2 ? rDentro : rFora, a = Math.PI * i / pontas; ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); }
+    ctx.closePath(); ctx.fillStyle = cor; ctx.fill(); ctx.restore();
+  }
+  function botaoCTA(ctx, x, y, w, h, texto, fundo, cor, tam) {
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,.25)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 6;
+    caminhoArred(ctx, x, y, w, h, h / 2); ctx.fillStyle = fundo; ctx.fill();
+    ctx.restore();
+    let t = tam;
+    do { ctx.font = fonte(900, t, 's'); t -= 2; } while (ctx.measureText(texto).width > w - 70 && t > 24);
+    ctx.fillStyle = cor; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(texto, x + w / 2, y + h / 2 + 2);
+    ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+  }
+
+  async function conteudoArte(insta) {
+    const linhasAb = semFormato(estado.abertura).split('\n').map(s => s.trim()).filter(Boolean);
+    const tituloSec = estado.cardapios.map(s => s.titulo.trim()).find(Boolean);
+    const secoes = estado.cardapios.map(s => ({ titulo: semFormato(s.titulo.trim()), itens: itensDe(s) })).filter(s => s.titulo || s.itens.length);
+    const ids = estado.fotoIds.slice(0, insta ? MAX_FOTOS_INSTA : MAX_FOTOS_ARTE);
+    const fotos = (await Promise.all(ids.map(async id => ({ img: await bitmapDe(id), aj: ajusteDe(id) })))).filter(f => f.img);
+    const itens = secoes.flatMap(s => s.itens);
+    return {
+      titulo: linhasAb[0] || (tituloSec ? semFormato(tituloSec) : 'Cardápio de hoje'),
+      sub: linhasAb.slice(1).join(' '),
+      secoes, fotos,
+      destaque: itens.find(i => i.preco) || itens[0] || null,
+    };
+  }
+
+  /* ---------- Modelo 1: Oferta relâmpago (fundo escuro, urgência, etiquetas de preço) ---------- */
+  function arteOferta(med, C, insta) {
+    const P = { fundo: '#1b0f0a', texto: '#fff7ec', suave: '#d9c3a5', destaque: '#ffd23f', secao: '#ffd23f', pesoSecao: 900, famSecao: 's', maiusc: true, pill: '#ffd23f', pillTexto: '#1b0f0a', marcador: '#e63946', cartao: 'rgba(255,255,255,0.07)' };
+    const M = 56, CW = W - 2 * M, pad = 34, largura = CW - pad * 2, topo = 128, ctaH = insta ? 190 : 210, larguraTit = CW - 220;
+    // No Feed (tamanho fixo) o título fica em até 2 linhas, para sobrar espaço ao cardápio
+    const T = ajustarTitulo(med, C.titulo.toLocaleUpperCase('pt-BR'), larguraTit, insta ? 2 : 3, insta ? 84 : 98, 46, 900, 's');
+    med.font = fonte(500, 32, 's');
+    const S = C.sub ? cortar(quebrar(med, C.sub, larguraTit), 2) : [];
+    const altTit = T.linhas.length * T.t * 1.04 + 22 + (S.length ? 12 + S.length * 42 : 0) + 34;
+    const menuMedir = s => C.secoes.length ? blocoMenu(med, C.secoes, s, 0, largura, 0, P, false) + pad * 2 : 0;
+    const fixo = topo + altTit + (C.fotos.length ? 40 : 0) + ctaH;
+    const { H, flex: ph } = planejar(insta, fixo, C.fotos.length > 0, alturaFotosLivre(C.fotos, CW), menuMedir, 240, 560);
+    const { c, ctx } = novaTela(H, P.fundo);
+
+    // Brilho vermelho e listras de "promoção"
+    const g = ctx.createRadialGradient(W * 0.85, 140, 10, W * 0.85, 140, 900);
+    g.addColorStop(0, 'rgba(230,57,70,0.38)'); g.addColorStop(1, 'rgba(230,57,70,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.save(); ctx.globalAlpha = 0.07; ctx.fillStyle = '#ffd23f';
+    for (let x = -H; x < W; x += 64) { ctx.beginPath(); ctx.moveTo(x, H); ctx.lineTo(x + 26, H); ctx.lineTo(x + 26 + H * 0.35, H - H * 0.35); ctx.lineTo(x + H * 0.35, H - H * 0.35); ctx.fill(); }
+    ctx.restore();
+
+    // Marca e data
+    ctx.textAlign = 'left'; ctx.fillStyle = '#e2b071'; ctx.font = fonte(800, 26, 's'); espacar(ctx, 6);
+    ctx.fillText('☕ CAFÉ CASA FRANÇA', M, 70);
+    ctx.fillStyle = P.suave; ctx.font = fonte(600, 22, 's'); espacar(ctx, 3);
+    ctx.fillText(dataArte().toUpperCase(), M, 104); espacar(ctx, 0);
+
+    // Selo "SÓ HOJE!"
+    estrela(ctx, W - 160, 180, 138, 112, 18, '#e63946', 0.08);
+    ctx.save(); ctx.translate(W - 160, 180); ctx.rotate(-0.16);
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = fonte(900, 40, 's'); ctx.fillText('SÓ', 0, -10);
+    ctx.font = fonte(900, 56, 's'); ctx.fillText('HOJE!', 0, 46); ctx.restore();
+
+    // Título gigante com marca-texto amarelo
+    let y = topo;
+    ctx.font = fonte(900, T.t, 's'); ctx.textAlign = 'left';
+    T.linhas.forEach((l, i) => {
+      const base = y + T.t * 0.86;
+      if (i === T.linhas.length - 1) { ctx.fillStyle = '#ffd23f'; ctx.fillRect(M, base + 12, Math.min(ctx.measureText(l).width, larguraTit), 12); }
+      ctx.fillStyle = P.texto; ctx.fillText(l, M, base);
+      y += T.t * 1.04;
+    });
+    y += 22;
+    if (S.length) { y += 12; ctx.font = fonte(500, 32, 's'); ctx.fillStyle = P.suave; S.forEach(l => { ctx.fillText(l, M, y + 32); y += 42; }); }
+    y += 34;
+
+    if (C.fotos.length) { colagem(ctx, C.fotos, M, y, CW, ph, '#2b1a12', '#fff7ec'); y += ph + 40; }
+
+    if (C.secoes.length) {
+      const { s, alt } = ajustarMenu(ctx, C.secoes, largura, H - ctaH - y - pad * 2, P);
+      caminhoArred(ctx, M, y, CW, Math.min(alt + pad * 2, H - ctaH - y), 24); ctx.fillStyle = P.cartao; ctx.fill();
+      blocoMenu(ctx, C.secoes, s, M + pad, largura, y + pad - s * 0.1, P, true);
+    }
+
+    const ctaAlt = insta ? 100 : 112, by = H - ctaH + (insta ? 26 : 34);
+    botaoCTA(ctx, M, by, CW, ctaAlt, CTA.toLocaleUpperCase('pt-BR'), '#25d366', '#062e17', 46);
+    ctx.textAlign = 'center'; ctx.fillStyle = '#ffd23f'; ctx.font = fonte(800, 28, 's');
+    ctx.fillText('⏰ Corre, que é por tempo limitado!', W / 2, by + ctaAlt + 44);
+    return c;
+  }
+
+  /* ---------- Modelo 2: Destaque do dia (foto grande, selo de preço) ---------- */
+  function arteDestaque(med, C, insta) {
+    const P = { fundo: '#fff8ee', cartao: '#ffffff', preco: '#c1121f', texto: '#2a1810', suave: '#7a6150', destaque: '#c1121f', secao: '#4a2b1c', linha: '#e8cfa8', marcador: '#c1121f' };
+    const M = 60, CW = W - 2 * M, pad = 34, largura = CW - pad * 2, ctaH = 200;
+    // No Feed (tamanho fixo) só a foto principal, para sobrar espaço ao cardápio
+    const hero = C.fotos[0], resto = insta ? [] : C.fotos.slice(1);
+    const T = ajustarTitulo(med, C.titulo, CW - 270, insta ? 2 : 3, insta ? 70 : 78, 42, 700, 't');
+    med.font = fonte(500, 32, 's');
+    const S = C.sub ? cortar(quebrar(med, C.sub, CW), 2) : [];
+    const altSub = S.length ? S.length * 42 + 16 : 0;
+    const faixa = resto.length ? (resto.length <= 3 ? 300 : filasDe(resto.length).length * 250) : 0;
+    const menuMedir = s => C.secoes.length ? blocoMenu(med, C.secoes, s, 0, largura, 0, P, false) + pad * 2 : 0;
+    const semFoto = 470;
+    const fixo = 80 + altSub + (faixa ? faixa + 36 : 0) + 20 + ctaH + (hero ? 0 : semFoto);
+    let heroPref = 820;
+    if (hero && hero.aj.modo === 'inteira') { const [iw, ih] = dims(hero.img); heroPref = Math.min(1000, Math.max(620, W * ih / iw)); }
+    const { H, flex } = planejar(insta, fixo, !!hero, heroPref, menuMedir, 400, 720);
+    const heroH = hero ? flex : semFoto;
+    const { c, ctx } = novaTela(H, P.fundo);
+
+    // Foto principal ocupando o topo
+    if (hero) desenharFoto(ctx, hero, 0, 0, W, heroH, '#2a1810');
+    else { const gg = ctx.createLinearGradient(0, 0, W, heroH); gg.addColorStop(0, '#4a2b1c'); gg.addColorStop(1, '#2a1810'); ctx.fillStyle = gg; ctx.fillRect(0, 0, W, heroH); }
+    const sombra = ctx.createLinearGradient(0, heroH * 0.3, 0, heroH);
+    sombra.addColorStop(0, 'rgba(20,10,5,0)'); sombra.addColorStop(1, 'rgba(20,10,5,0.88)');
+    ctx.fillStyle = sombra; ctx.fillRect(0, 0, W, heroH);
+
+    // Marca no topo
+    ctx.font = fonte(800, 24, 's'); espacar(ctx, 4);
+    const marca = '☕ CAFÉ CASA FRANÇA', mw = ctx.measureText(marca).width + 44;
+    caminhoArred(ctx, M, 40, mw, 58, 29); ctx.fillStyle = 'rgba(42,24,16,0.85)'; ctx.fill();
+    ctx.fillStyle = '#f6dfb8'; ctx.textAlign = 'left'; ctx.fillText(marca, M + 22, 78); espacar(ctx, 0);
+
+    // Título sobre a foto
+    ctx.font = fonte(700, T.t, 't'); ctx.fillStyle = '#fff';
+    const ultimaBase = heroH - 50;
+    T.linhas.forEach((l, i) => ctx.fillText(l, M, ultimaBase - (T.linhas.length - 1 - i) * T.t * 1.1));
+    ctx.fillStyle = '#ffd23f'; ctx.fillRect(M, ultimaBase - (T.linhas.length - 1) * T.t * 1.1 - T.t - 22, 90, 8);
+
+    // Selo redondo com o preço do destaque
+    const bx = W - M - 120, byc = heroH - 50, br = 122;
+    ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 6;
+    ctx.beginPath(); ctx.arc(bx, byc, br, 0, Math.PI * 2); ctx.fillStyle = '#c1121f'; ctx.fill(); ctx.restore();
+    ctx.beginPath(); ctx.arc(bx, byc, br - 12, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 4; ctx.setLineDash([8, 7]); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+    if (C.destaque && C.destaque.preco) {
+      ctx.font = fonte(800, 26, 's'); ctx.fillText('SÓ', bx, byc - 34);
+      let t = 54; do { ctx.font = fonte(900, t, 's'); t -= 2; } while (ctx.measureText(C.destaque.preco).width > br * 1.65 && t > 28);
+      ctx.fillText(C.destaque.preco, bx, byc + 18);
+      ctx.font = fonte(700, 20, 's'); ctx.fillText('HOJE', bx, byc + 52);
+    } else {
+      ctx.font = fonte(900, 36, 's'); ctx.fillText('IMPER-', bx, byc - 4); ctx.fillText('DÍVEL!', bx, byc + 36);
+    }
+
+    let y = heroH + 80;
+    if (S.length) { ctx.textAlign = 'left'; ctx.font = fonte(500, 32, 's'); ctx.fillStyle = P.suave; S.forEach(l => { ctx.fillText(l, M, y); y += 42; }); y += 16; }
+    if (faixa) { colagem(ctx, resto, M, y, CW, faixa, '#efe3d0', '#ffffff'); y += faixa + 36; }
+    y += 20;
+
+    if (C.secoes.length) {
+      const { s, alt } = ajustarMenu(ctx, C.secoes, largura, H - ctaH - y - pad * 2, P);
+      const hC = Math.min(alt + pad * 2, H - ctaH - y);
+      ctx.save(); caminhoArred(ctx, M, y, CW, hC, 26); ctx.fillStyle = P.cartao; ctx.fill();
+      ctx.setLineDash([12, 9]); ctx.lineWidth = 3; ctx.strokeStyle = P.linha; ctx.stroke(); ctx.restore();
+      blocoMenu(ctx, C.secoes, s, M + pad, largura, y + pad - s * 0.1, P, true);
+    }
+
+    const by = H - ctaH + 30;
+    botaoCTA(ctx, M, by, CW, 108, CTA, '#1a9e50', '#ffffff', 44);
+    ctx.textAlign = 'center'; ctx.fillStyle = '#c1121f'; ctx.font = fonte(800, 28, 's');
+    ctx.fillText('⏰ Garanta o seu antes que acabe!', W / 2, by + 108 + 46);
+    return c;
+  }
+
+  /* ---------- Modelo 3: Cardápio café (elegante, completo) ---------- */
+  function arteClassico(med, C, insta) {
+    const P = { fundo: '#f8efe2', cartao: '#fffaf2', titulo: '#4a2b1c', texto: '#2a1810', suave: '#7a6150', destaque: '#b8742f', linha: '#e2b071' };
+    const M = 64, CW = W - 2 * M, pad = 36, largura = CW - pad * 2, fh = 170, ctaH = 190;
+    const T = ajustarTitulo(med, C.titulo, CW, 2, 64, 40, 700, 't');
+    med.font = fonte(400, 30, 's');
+    const S = C.sub ? cortar(quebrar(med, C.sub, CW), 2) : [];
+    const altTit = T.linhas.length * T.t * 1.16 + (S.length ? 6 + S.length * 40 : 0) + 28;
+    const menuMedir = s => C.secoes.length ? blocoMenu(med, C.secoes, s, 0, largura, 0, P, false) + pad * 2 : 0;
+    const fixo = fh + 48 + (C.fotos.length ? 44 : 0) + altTit + ctaH;
+    const { H, flex: ph } = planejar(insta, fixo, C.fotos.length > 0, alturaFotosLivre(C.fotos, CW), menuMedir, 260, 600);
+    const { c, ctx } = novaTela(H, P.fundo);
+
+    // Faixa com nome e data + toldo
+    ctx.fillStyle = '#2a1810'; ctx.fillRect(0, 0, W, fh);
+    for (let x = 0; x < W + 36; x += 36) { ctx.beginPath(); ctx.arc(x + 18, fh, 18, 0, Math.PI); ctx.fill(); }
+    ctx.textAlign = 'center'; ctx.fillStyle = '#f8efe2'; ctx.font = fonte(700, 62, 't');
+    ctx.fillText('Café Casa França', W / 2, fh / 2 + 10);
+    ctx.fillStyle = '#e2b071'; ctx.font = fonte(700, 24, 's'); espacar(ctx, 5);
+    ctx.fillText(dataArte().toUpperCase(), W / 2, fh / 2 + 54); espacar(ctx, 0);
+
+    let y = fh + 48;
+    if (C.fotos.length) { colagem(ctx, C.fotos, M, y, CW, ph, '#efe3d0'); y += ph + 44; }
+
+    ctx.textAlign = 'center'; ctx.fillStyle = P.titulo; ctx.font = fonte(700, T.t, 't');
+    T.linhas.forEach(l => { ctx.fillText(l, W / 2, y + T.t * 0.86); y += T.t * 1.16; });
+    if (S.length) { ctx.font = fonte(400, 30, 's'); ctx.fillStyle = P.suave; y += 6; S.forEach(l => { ctx.fillText(l, W / 2, y + 30); y += 40; }); }
+    y += 28;
+
+    if (C.secoes.length) {
+      const { s, alt } = ajustarMenu(ctx, C.secoes, largura, H - ctaH - y - pad * 2, P);
+      const hC = Math.min(alt + pad * 2, H - ctaH - y);
+      ctx.save(); caminhoArred(ctx, M, y, CW, hC, 26); ctx.fillStyle = P.cartao; ctx.fill();
+      ctx.setLineDash([12, 9]); ctx.lineWidth = 3; ctx.strokeStyle = P.linha; ctx.stroke(); ctx.restore();
+      blocoMenu(ctx, C.secoes, s, M + pad, largura, y + pad - s * 0.1, P, true);
+    }
+
+    const by = H - ctaH + 36;
+    botaoCTA(ctx, M + 40, by, CW - 80, 100, CTA, '#1a9e50', '#ffffff', 40);
+    ctx.textAlign = 'center'; ctx.fillStyle = P.destaque; ctx.font = fonte(700, 26, 's');
+    ctx.fillText('Feito com carinho, servido com café 🤎', W / 2, by + 100 + 44);
+    return c;
+  }
+
+  async function desenharArte(formato, modelo = estado.modelo) {
+    await carregarFontes();
+    const insta = formato === 'insta';
+    const C = await conteudoArte(insta);
+    const med = document.createElement('canvas').getContext('2d'); // só para medir
+    const desenhar = { oferta: arteOferta, destaque: arteDestaque, classico: arteClassico }[modelo] || arteOferta;
+    return desenhar(med, C, insta);
+  }
+
+  // Duas artes em cache: 'whats' (cresce) e 'insta' (Feed 4:5)
+  let versaoArte = 0;
+  const arte = { whats: null, insta: null }, urlArte = {}, emAndamento = {};
+  function obterArte(formato = 'whats') {
+    if (arte[formato]) return Promise.resolve(arte[formato]);
+    const v = versaoArte, atual = emAndamento[formato];
+    if (!atual || atual.v !== v) {
+      const p = desenharArte(formato).then(c => canvasParaBlob(c, 'image/png')).then(b => { if (v === versaoArte) arte[formato] = b; return b; });
+      emAndamento[formato] = { v, p };
+    }
+    return emAndamento[formato].p;
+  }
+  // Miniaturas dos 3 modelos, com o conteúdo atual (refeitas quando o conteúdo muda)
+  let tMini, versaoMini = 0;
+  const urlsMini = {};
+  async function atualizarMiniaturas() {
+    const v = ++versaoMini;
+    for (const m of MODELOS_ARTE) {
+      const grande = await desenharArte('insta', m);
+      if (v !== versaoMini) return;
+      const c = document.createElement('canvas');
+      c.width = 300; c.height = 375;
+      c.getContext('2d').drawImage(grande, 0, 0, 300, 375);
+      const b = await canvasParaBlob(c, 'image/jpeg', 0.82);
+      if (urlsMini[m]) URL.revokeObjectURL(urlsMini[m]);
+      urlsMini[m] = URL.createObjectURL(b);
+      $$(`img[data-mini="${m}"]`).forEach(i => { i.src = urlsMini[m]; });
+    }
+  }
+  let tArte;
+  function invalidarArte(conteudoMudou = true) {
+    versaoArte++; arte.whats = null; arte.insta = null;
+    if (conteudoMudou) { clearTimeout(tMini); tMini = setTimeout(atualizarMiniaturas, 700); }
+    clearTimeout(tArte);
+    tArte = setTimeout(async () => {
+      for (const f of ['whats', 'insta']) {
+        const b = await obterArte(f);
+        if (urlArte[f]) URL.revokeObjectURL(urlArte[f]);
+        urlArte[f] = URL.createObjectURL(b);
+        $$(`img[data-arte="${f}"]`).forEach(img => { img.src = urlArte[f]; });
+      }
+    }, 280);
+  }
+  const nomeArquivo = (f = 'whats') => `casa-franca-${new Date().toISOString().slice(0, 10)}${f === 'insta' ? '-instagram' : ''}.png`;
+  function baixarBlob(blob, nome) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = nome;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+
+  /* ================= Área de transferência ================= */
+  const podeCopiarImagem = () => !!(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem);
+  async function escreverTexto(t) {
+    try { if (navigator.clipboard && navigator.clipboard.writeText) { await navigator.clipboard.writeText(t); return true; } } catch { /* método antigo */ }
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+      document.body.append(ta); ta.select(); ta.setSelectionRange(0, t.length);
+      const ok = document.execCommand('copy'); ta.remove(); return ok;
+    } catch { return false; }
+  }
+  async function escreverArte() {
+    if (!podeCopiarImagem()) return false;
+    try { await navigator.clipboard.write([new ClipboardItem({ 'image/png': obterArte() })]); return true; }
+    catch (e) { console.warn(e); return false; }
+  }
+
+  /* ================= Envio ================= */
+  let modoCelular = false;
+  function exigirConteudo() {
+    if (temConteudo()) return true;
+    toast('Comece pela aba Criar.', 'erro'); irPara('criar'); return false;
+  }
+  // Celular: lista de compartilhar do próprio aparelho
+  function compartilharArte(destino, btn) {
+    const formato = destino === 'Instagram' ? 'insta' : 'whats';
+    const blob = arte[formato];
+    if (!blob) { obterArte(formato); toast('Preparando a arte… toque de novo em um instante.'); return; }
+    const arq = new File([blob], nomeArquivo(formato), { type: 'image/png' });
+    if (!(navigator.canShare && navigator.canShare({ files: [arq] }))) {
+      baixarBlob(blob, arq.name); marcarOk(btn, 'Arte salva!');
+      toast(`Arte salva no aparelho. Abra o ${destino} e escolha a imagem.`);
+      return;
+    }
+    navigator.share({ files: [arq] })
+      .then(() => { marcarOk(btn, 'Enviado!'); salvarCampanha({ [destino === 'Instagram' ? 'instagram' : 'whatsapp']: Date.now() }); })
+      .catch(e => { if (e && e.name !== 'AbortError') toast('Não deu para compartilhar. Use “Baixar arte”.', 'erro'); });
+  }
+
+  async function whatsEnviar(btn) {
+    if (!exigirConteudo()) return;
+    if (modoCelular) return compartilharArte('WhatsApp', btn);
+    if (!podeCopiarImagem()) {
+      baixarBlob(await obterArte(), nomeArquivo());
+      window.open('https://web.whatsapp.com/', 'whatsappweb');
+      marcarOk(btn, 'Arte baixada');
+      toast('Arte baixada. No WhatsApp Web, arraste a imagem para a conversa.');
+      return;
+    }
+    if (!(await escreverArte())) { toast('Não consegui copiar a arte. Use “Baixar arte” e arraste para a conversa.', 'erro'); return; }
+    marcarOk(btn, 'Arte copiada!');
+    window.open('https://web.whatsapp.com/', 'whatsappweb');
+    toast('Arte copiada ✅ Abra a conversa e aperte Ctrl+V.');
+    salvarCampanha({ whatsapp: Date.now() });
+  }
+
+  async function instaArte(btn) {
+    if (!exigirConteudo()) return;
+    if (modoCelular) return compartilharArte('Instagram', btn);
+    baixarBlob(await obterArte('insta'), nomeArquivo('insta'));
+    marcarOk(btn, 'Arte baixada!');
+    toast('Arte salva na pasta Downloads ✅');
+  }
+  function instaAbrir(btn) {
+    window.open('https://www.instagram.com/', 'instagram');
+    marcarOk(btn, 'Aberto!');
+  }
+  async function instaLegenda(btn) {
+    if (await escreverTexto(estado.legenda)) {
+      marcarOk(btn, 'Legenda copiada!');
+      toast(modoCelular ? 'Copiada ✅ No Instagram, toque em “Escreva uma legenda” e cole.' : 'Copiada ✅ No Instagram, clique em “Escreva uma legenda” e aperte Ctrl+V.');
+      salvarCampanha({ instagram: Date.now() });
+    } else toast('Não consegui copiar. Selecione o texto da legenda e copie.', 'erro');
+  }
+
+  /* ================= Campanhas da semana ================= */
+  function tituloCampanha() {
+    const l = semFormato(estado.abertura).split('\n').map(s => s.trim()).find(Boolean);
+    return l || semFormato(estado.cardapios.map(c => c.titulo.trim()).find(Boolean) || '') || 'Campanha de ' + new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+  }
+  let salvando = Promise.resolve();
+  function salvarCampanha(envio = null) {
+    salvando = salvando.then(async () => {
+      if (!temConteudo()) return;
+      const id = estado.campanhaId;
+      const antiga = campanhas.find(c => c.id === id);
+      let thumb = null;
+      try { thumb = await reduzir(await obterArte(), 480, 'image/jpeg', 0.82); } catch { /* sem miniatura */ }
+      const criadoEm = antiga ? antiga.criadoEm : Date.now(), titulo = tituloCampanha();
+      let pasta = antiga && antiga.pasta;
+      if (!pasta) {
+        pasta = `${carimbo(criadoEm)}_${slug(titulo)}`;
+        if (campanhas.some(c => c.pasta === pasta)) pasta += '-' + id.slice(-4);
+      }
+      const reg = {
+        id, pasta, criadoEm, atualizadoEm: Date.now(), titulo,
+        dados: JSON.parse(JSON.stringify(estado)), thumb,
+        envios: { ...(antiga ? antiga.envios : {}), ...(envio || {}) },
+      };
+      await armazem.salvarCampanha(reg);
+      campanhas = [reg, ...campanhas.filter(c => c.id !== id)];
+      const agora = Date.now();
+      estado.fotoIds.forEach(fid => { const f = biblioteca.find(x => x.id === fid); if (f) { f.usadoEm = agora; armazem.usarFoto(f).catch(() => {}); } });
+      alterado = false;
+      renderSemana();
+      return true;
+    }).catch(e => {
+      console.warn(e);
+      toast('Não consegui salvar a campanha. Feche e abra o painel de novo.', 'erro');
+      return false;
+    });
+    return salvando;
+  }
+  // Limpa o que está sendo preenchido (fotos guardadas e campanhas da semana continuam)
+  function limparTudo() {
+    if (!temConteudo() && !el.textoColado.value.trim()) { toast('Já está tudo limpo.'); return; }
+    if (!confirm('Limpar chamada, cardápio, fotos escolhidas e legenda?\n\nAs fotos guardadas e as campanhas da aba Semana NÃO são apagadas.')) return;
+    estado = { ...estadoPadrao(), modelo: estado.modelo };
+    el.textoColado.value = '';
+    statusMenu.className = 'status-leitura oculto';
+    preencherTudo(); mudou(false);
+    irPara('criar');
+    toast('Tudo limpo. Pode começar!');
+  }
+  async function novaCampanha() {
+    if (temConteudo()) await salvarCampanha();
+    estado = { ...estadoPadrao(), modelo: estado.modelo };
+    preencherTudo(); mudou(false);
+    irPara('criar');
+    toast('Nova campanha. A anterior está na aba Semana.');
+  }
+  async function abrirCampanha(id, comoNova) {
+    const reg = campanhas.find(c => c.id === id);
+    if (!reg) return;
+    if (temConteudo() && estado.campanhaId !== id && alterado) await salvarCampanha();
+    estado = { ...estadoPadrao(), ...JSON.parse(JSON.stringify(reg.dados)) };
+    if (comoNova) estado.campanhaId = uid();
+    estado.fotoIds = estado.fotoIds.filter(fid => biblioteca.some(f => f.id === fid));
+    if (!estado.cardapios || !estado.cardapios.length) estado.cardapios = [novoCardapio()];
+    preencherTudo(); mudou(false);
+    irPara('criar');
+    toast(comoNova ? 'Cópia criada. Ajuste e envie de novo!' : 'Campanha aberta.');
+  }
+  async function apagarCampanha(id) {
+    if (!confirm(usaPastas ? 'Apagar esta campanha?\n\nA pasta dela vai para a Lixeira do Windows (dá para recuperar).' : 'Apagar esta campanha?')) return;
+    const reg = campanhas.find(c => c.id === id);
+    if (reg) { try { await armazem.apagarCampanha(reg); } catch { toast('Não consegui apagar a campanha.', 'erro'); return; } }
+    campanhas = campanhas.filter(c => c.id !== id);
+    renderSemana();
+  }
+  async function limparVencidos() {
+    if (usaPastas) return; // no modo pastas, quem limpa é o próprio servidor ao abrir
+    const agora = Date.now();
+    const vC = campanhas.filter(c => agora - c.criadoEm > SEMANA);
+    const vF = biblioteca.filter(f => agora - idadeFoto(f) > SEMANA);
+    campanhas = campanhas.filter(c => !vC.includes(c));
+    biblioteca = biblioteca.filter(f => !vF.includes(f));
+    await Promise.all([...vC.map(c => dbDel('campanhas', c.id)), ...vF.map(f => dbDel('fotos', f.id))]);
+  }
+
+  /* ================= Renderização ================= */
+  function renderCardapios() {
+    el.lista.textContent = '';
+    estado.cardapios.forEach((c, i) => {
+      const div = document.createElement('div');
+      div.className = 'cardapio'; div.dataset.id = c.id;
+      div.innerHTML = `
+        <div class="cardapio-cab">
+          <input type="text" data-campo="titulo" data-editavel placeholder="Título (ex: Café da manhã)" aria-label="Título da seção ${i + 1}">
+          <button type="button" class="btn-icone" data-acao="remover-cardapio" title="Remover seção" aria-label="Remover seção ${i + 1}"><svg class="i"><use href="#i-trash"/></svg></button>
+        </div>
+        <textarea rows="4" data-campo="itens" data-editavel aria-label="Itens da seção ${i + 1}" placeholder="Pão na chapa — R$ 6,00&#10;Cappuccino — R$ 9,50"></textarea>`;
+      $('[data-campo="titulo"]', div).value = c.titulo;
+      $('[data-campo="itens"]', div).value = c.itens;
+      el.lista.append(div);
+    });
+  }
+
+  function renderFotos() {
+    el.biblioteca.textContent = '';
+    biblioteca.forEach(f => {
+      const pos = estado.fotoIds.indexOf(f.id);
+      const d = document.createElement('div');
+      d.className = 'bib-item';
+      d.innerHTML = `
+        <button type="button" class="bib${pos >= 0 ? ' sel' : ''}" data-acao="foto" data-foto="${f.id}" aria-pressed="${pos >= 0}" aria-label="${pos >= 0 ? 'Foto na arte, posição ' + (pos + 1) : 'Usar foto na arte'}" title="Expira em ${diasRestantes(idadeFoto(f))} dia(s)">
+          <img alt=""><span class="ordem">${pos >= 0 ? pos + 1 : ''}</span>
+        </button>
+        <button type="button" class="bib-x" data-acao="apagar-foto" data-foto="${f.id}" aria-label="Apagar foto"><svg class="i"><use href="#i-x"/></svg></button>`;
+      $('img', d).src = f.url;
+      el.biblioteca.append(d);
+    });
+    el.contadorFotos.textContent = biblioteca.length ? `${estado.fotoIds.length} na arte` : '';
+    el.dicaFotos.classList.toggle('oculto', !biblioteca.length);
+
+    // Ajuste de cada foto escolhida
+    el.ajustes.textContent = '';
+    estado.fotoIds.forEach((id, i) => {
+      const f = biblioteca.find(x => x.id === id);
+      if (!f) return;
+      const aj = ajusteDe(id);
+      const d = document.createElement('div');
+      d.className = 'ajuste';
+      d.innerHTML = `
+        <div class="mini"><img alt=""><b>${i + 1}</b></div>
+        <div class="controles">
+          <div class="seg" role="group" aria-label="Enquadramento da foto ${i + 1}">
+            <button type="button" data-acao="modo-foto" data-foto="${id}" data-valor="inteira" aria-pressed="${aj.modo === 'inteira'}">Foto inteira</button>
+            <button type="button" data-acao="modo-foto" data-foto="${id}" data-valor="preencher" aria-pressed="${aj.modo === 'preencher'}">Preencher</button>
+          </div>
+          <label class="mover${aj.modo === 'preencher' ? '' : ' oculto'}">Mover <input type="range" min="0" max="100" value="${aj.foco}" data-foco="${id}" aria-label="Mover a foto ${i + 1}"></label>
+        </div>`;
+      $('img', d).src = f.url;
+      el.ajustes.append(d);
+    });
+  }
+
+  function renderWhats() {
+    $('#etapasWhats').innerHTML = modoCelular
+      ? `<li class="etapa"><div><p>Toque para enviar a arte</p><button type="button" class="btn-principal" data-acao="whats-enviar"><svg class="i"><use href="#i-chat"/></svg><span>Enviar arte</span></button></div></li>
+         <li class="etapa"><div><p>Escolha <b>WhatsApp</b> e depois a conversa ou o grupo</p></div></li>
+         <li class="etapa"><div><p>Toque em <b>Enviar</b> ✅</p></div></li>`
+      : `<li class="etapa"><div><p>Copie a arte (o WhatsApp Web abre sozinho)</p><button type="button" class="btn-principal" data-acao="whats-enviar"><svg class="i"><use href="#i-copy"/></svg><span>Copiar arte e abrir WhatsApp</span></button></div></li>
+         <li class="etapa"><div><p>Abra a <b>conversa</b> ou o <b>grupo</b></p></div></li>
+         <li class="etapa"><div><p>Aperte <kbd>Ctrl</kbd>+<kbd>V</kbd> e depois <kbd>Enter</kbd> ✅</p></div></li>`;
+  }
+
+  function renderInsta() {
+    if (!estado.legendaManual || !estado.legenda) atualizarLegendaAuto();
+    el.legenda.value = estado.legenda;
+    $('#avisoInsta').classList.toggle('oculto', estado.fotoIds.length <= MAX_FOTOS_INSTA);
+    $('#etapasInsta').innerHTML = modoCelular
+      ? `<li class="etapa"><div><p>Copie a legenda</p><button type="button" class="btn-claro" data-acao="insta-legenda"><svg class="i"><use href="#i-copy"/></svg><span>Copiar legenda</span></button></div></li>
+         <li class="etapa"><div><p>Envie a arte e escolha <b>Instagram › Feed</b></p><button type="button" class="btn-principal insta" data-acao="insta-arte"><svg class="i"><use href="#i-insta"/></svg><span>Enviar arte para o Instagram</span></button></div></li>
+         <li class="etapa"><div><p>No corte, toque no ícone <b>⤢</b> para mostrar a arte inteira e toque em <b>Avançar</b></p></div></li>
+         <li class="etapa"><div><p>Toque em <b>“Adicionar legenda”</b>, segure o dedo e toque em <b>Colar</b></p></div></li>
+         <li class="etapa"><div><p>Toque em <b>Compartilhar</b> ✅</p></div></li>`
+      : `<li class="etapa"><div><p>Baixe a arte</p><button type="button" class="btn-principal insta" data-acao="insta-arte"><svg class="i"><use href="#i-download"/></svg><span>Baixar arte</span></button></div></li>
+         <li class="etapa"><div><p>Abra o Instagram</p><button type="button" class="btn-claro" data-acao="insta-abrir"><svg class="i"><use href="#i-external"/></svg><span>Abrir Instagram</span></button></div></li>
+         <li class="etapa"><div><p>Clique em <b>+ Criar</b> › <b>Post</b> › <b>Selecionar do computador</b> e escolha a arte baixada (<b>casa-franca-…png</b>)</p></div></li>
+         <li class="etapa"><div><p>No corte, clique no ícone <b>⤢</b> (canto de baixo) e escolha <b>4:5</b>, para a arte não ser cortada. Clique em <b>Avançar</b> duas vezes</p></div></li>
+         <li class="etapa"><div><p>Copie a legenda, clique em <b>“Escreva uma legenda…”</b> e aperte <kbd>Ctrl</kbd>+<kbd>V</kbd></p><button type="button" class="btn-claro" data-acao="insta-legenda"><svg class="i"><use href="#i-copy"/></svg><span>Copiar legenda</span></button></div></li>
+         <li class="etapa"><div><p>Clique em <b>Compartilhar</b> ✅</p></div></li>`;
+  }
+
+  const urlsThumb = new Map();
+  function renderSemana() {
+    campanhas.sort((a, b) => b.atualizadoEm - a.atualizadoEm);
+    const n = campanhas.length;
+    el.resumoSemana.textContent = n ? `${n} campanha${n > 1 ? 's' : ''} · apagadas sozinhas após 7 dias` : 'Campanhas ficam aqui por 7 dias';
+    urlsThumb.forEach(u => URL.revokeObjectURL(u)); urlsThumb.clear();
+    el.listaCampanhas.textContent = '';
+    if (!n) {
+      el.listaCampanhas.innerHTML = '<div class="card vazio-grande">Nenhuma campanha ainda. Elas aparecem aqui quando você envia.</div>';
+      return;
+    }
+    campanhas.forEach(c => {
+      const d = document.createElement('article');
+      d.className = 'camp' + (c.id === estado.campanhaId ? ' atual' : '');
+      const e = c.envios || {};
+      d.innerHTML = `
+        <img alt="">
+        <div class="camp-corpo">
+          <h3></h3>
+          <div class="meta">${dataCurta(c.atualizadoEm)}</div>
+          <div class="selos">
+            <span class="selo${e.whatsapp ? ' ok' : ''}">${e.whatsapp ? '✓ ' : ''}WhatsApp</span>
+            <span class="selo${e.instagram ? ' ok' : ''}">${e.instagram ? '✓ ' : ''}Instagram</span>
+          </div>
+        </div>
+        <div class="camp-acoes">
+          <button type="button" class="btn-claro" data-acao="camp-abrir" data-camp="${c.id}">Abrir</button>
+          <button type="button" class="btn-claro" data-acao="camp-usar" data-camp="${c.id}" title="Cria uma cópia para enviar hoje">Usar de novo</button>
+          <button type="button" class="btn-icone" data-acao="camp-apagar" data-camp="${c.id}" aria-label="Apagar campanha"><svg class="i"><use href="#i-trash"/></svg></button>
+        </div>`;
+      $('h3', d).textContent = c.titulo;
+      if (c.thumb) { const u = URL.createObjectURL(c.thumb); urlsThumb.set(c.id, u); $('img', d).src = u; }
+      else if (c.thumbUrl) $('img', d).src = c.thumbUrl;
+      el.listaCampanhas.append(d);
+    });
+  }
+
+  function preencherTudo() {
+    el.abertura.value = estado.abertura;
+    el.legenda.value = estado.legenda;
+    if (!MODELOS_ARTE.includes(estado.modelo)) estado.modelo = 'oferta';
+    $$('[data-acao="modelo-arte"]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.valor === estado.modelo)));
+    renderCardapios(); renderFotos();
+  }
+
+  /* ================= Mudanças e navegação ================= */
+  let tRasc;
+  const salvarRascunho = () => { clearTimeout(tRasc); tRasc = setTimeout(() => ls.set(CH.rascunho, estado), 300); };
+  function mudou(marcar = true) {
+    if (marcar) alterado = true;
+    atualizarLegendaAuto();
+    salvarRascunho();
+    invalidarArte();
+  }
+  let vistaAtual = 'criar';
+  function irPara(v) {
+    vistaAtual = v;
+    $$('.vista').forEach(s => s.classList.toggle('ativa', s.id === 'v-' + v));
+    $$('.aba').forEach(b => b.setAttribute('aria-selected', String(b.dataset.vista === v)));
+    ls.set(CH.vista, v);
+    if (v === 'insta') renderInsta();
+    if (v === 'whats') renderWhats();
+    if (v === 'semana') renderSemana();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  let campoAtivo = el.abertura;
+  document.addEventListener('focusin', e => { if (e.target.matches('[data-editavel]')) campoAtivo = e.target; });
+  function inserirNoCampo(txt) {
+    const c = document.body.contains(campoAtivo) ? campoAtivo : el.abertura;
+    const ini = c.selectionStart ?? c.value.length, fim = c.selectionEnd ?? c.value.length;
+    c.setRangeText(txt, ini, fim, 'end');
+    c.focus({ preventScroll: true });
+    c.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  let iSug = Math.floor(Math.random() * SUGESTOES_CHAMADA.length);
+  function sugerirChamada() {
+    estado.abertura = SUGESTOES_CHAMADA[iSug++ % SUGESTOES_CHAMADA.length](contexto());
+    el.abertura.value = estado.abertura;
+    mudou();
+  }
+  function importar() {
+    const txt = el.textoColado.value.trim();
+    if (!txt) { toast('Cole o cardápio no campo primeiro.', 'erro'); el.textoColado.focus(); return; }
+    const r = importarDoWhats(txt);
+    if (!r.cardapios.length && !r.abertura) { toast('Não encontrei itens. Confira o texto colado.', 'erro'); return; }
+    if (temConteudo() && !confirm('Substituir a chamada e o cardápio atuais pelo texto colado?')) return;
+    estado.abertura = r.abertura;
+    estado.cardapios = r.cardapios.length ? r.cardapios : [novoCardapio()];
+    if (!estado.abertura) estado.abertura = SUGESTOES_CHAMADA[0](contexto());
+    estado.legendaManual = false;
+    preencherTudo(); mudou();
+    el.textoColado.value = '';
+    statusMenu.className = 'status-leitura oculto';
+    $('#colar').open = false;
+    const n = estado.cardapios.reduce((s, c) => s + itensDe(c).length, 0);
+    toast(`Post montado ✅ ${n} ite${n === 1 ? 'm' : 'ns'} no cardápio. Escolha as fotos e confira a arte.`);
+  }
+
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t === el.abertura) estado.abertura = t.value;
+    else if (t === el.legenda) { estado.legenda = t.value; estado.legendaManual = true; salvarRascunho(); return; }
+    else if (t.dataset && t.dataset.foco) {
+      estado.ajustes[t.dataset.foco] = { ...ajusteDe(t.dataset.foco), foco: +t.value };
+    } else if (t.dataset && t.dataset.campo) {
+      const card = t.closest('[data-id]');
+      const c = card && estado.cardapios.find(x => x.id === card.dataset.id);
+      if (c) c[t.dataset.campo] = t.value;
+    } else return;
+    mudou();
+  });
+  $('#barraEmoji').addEventListener('mousedown', e => { if (e.target.closest('button')) e.preventDefault(); });
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-acao], [data-vista]');
+    if (!b) return;
+    if (b.dataset.vista && !b.dataset.acao) { irPara(b.dataset.vista); return; }
+    switch (b.dataset.acao) {
+      case 'nova': novaCampanha(); break;
+      case 'limpar-tudo': limparTudo(); break;
+      case 'salvar':
+        if (!temConteudo()) { toast('Nada para salvar ainda.', 'erro'); break; }
+        salvarCampanha().then(ok => {
+          if (!ok) return;
+          $$('[data-acao="salvar"]').forEach(x => marcarOk(x, 'Salvo!'));
+          toast(usaPastas ? 'Salva na aba Semana e na pasta “dados/campanhas” ✅' : 'Salva na aba Semana ✅');
+        });
+        break;
+      case 'limpar-chamada':
+        estado.abertura = ''; el.abertura.value = ''; mudou(); el.abertura.focus(); break;
+      case 'limpar-colado':
+        el.textoColado.value = ''; statusMenu.className = 'status-leitura oculto'; el.textoColado.focus(); break;
+      case 'limpar-cardapio': {
+        const temItens = estado.cardapios.some(c => c.titulo.trim() || c.itens.trim());
+        if (temItens && !confirm('Limpar todo o cardápio?')) break;
+        estado.cardapios = [novoCardapio()]; renderCardapios(); mudou();
+        break;
+      }
+      case 'limpar-fotos':
+        estado.fotoIds = []; renderFotos(); mudou();
+        toast('Fotos tiradas da arte. Os arquivos continuam guardados.'); break;
+      case 'limpar-legenda':
+        estado.legenda = ''; estado.legendaManual = true; el.legenda.value = ''; salvarRascunho(); el.legenda.focus(); break;
+      case 'importar': importar(); break;
+      case 'sugerir': sugerirChamada(); break;
+      case 'emoji': inserirNoCampo(b.dataset.valor); break;
+      case 'add-cardapio': {
+        estado.cardapios.push(novoCardapio()); renderCardapios(); mudou();
+        const u = el.lista.lastElementChild; if (u) $('input', u).focus();
+        break;
+      }
+      case 'remover-cardapio': {
+        const id = b.closest('[data-id]').dataset.id;
+        const c = estado.cardapios.find(x => x.id === id);
+        if (c && (c.titulo.trim() || c.itens.trim()) && !confirm('Remover esta seção?')) break;
+        estado.cardapios = estado.cardapios.filter(x => x.id !== id);
+        if (!estado.cardapios.length) estado.cardapios.push(novoCardapio());
+        renderCardapios(); mudou();
+        break;
+      }
+      case 'foto': alternarFoto(b.dataset.foto); break;
+      case 'apagar-foto': apagarFoto(b.dataset.foto); break;
+      case 'modo-foto':
+        estado.ajustes[b.dataset.foto] = { ...ajusteDe(b.dataset.foto), modo: b.dataset.valor };
+        renderFotos(); mudou(); break;
+      case 'modelo-arte':
+        estado.modelo = b.dataset.valor;
+        $$('[data-acao="modelo-arte"]').forEach(x => x.setAttribute('aria-checked', String(x === b)));
+        alterado = true; salvarRascunho(); invalidarArte(false);
+        break;
+      case 'whats-enviar': whatsEnviar(b); break;
+      case 'baixar': if (exigirConteudo()) obterArte().then(bl => { baixarBlob(bl, nomeArquivo()); marcarOk(b, 'Baixada!'); }); break;
+      case 'insta-arte': instaArte(b); break;
+      case 'insta-abrir': instaAbrir(b); break;
+      case 'insta-legenda': instaLegenda(b); break;
+      case 'outra-legenda':
+        estado.legenda = gerarLegenda(true); estado.legendaManual = false;
+        el.legenda.value = estado.legenda; salvarRascunho(); break;
+      case 'camp-abrir': abrirCampanha(b.dataset.camp, false); break;
+      case 'camp-usar': abrirCampanha(b.dataset.camp, true); break;
+      case 'camp-apagar': apagarCampanha(b.dataset.camp); break;
+    }
+  });
+
+  el.input.addEventListener('change', () => { adicionarArquivos(el.input.files); el.input.value = ''; });
+  ['dragenter', 'dragover'].forEach(ev => el.areaUpload.addEventListener(ev, e => { e.preventDefault(); el.areaUpload.classList.add('arrastando'); }));
+  ['dragleave', 'drop'].forEach(ev => el.areaUpload.addEventListener(ev, () => el.areaUpload.classList.remove('arrastando')));
+  el.areaUpload.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer) adicionarArquivos(e.dataTransfer.files); });
+  document.addEventListener('paste', e => {
+    const arqs = e.clipboardData ? [...e.clipboardData.files].filter(f => f.type.startsWith('image/')) : [];
+    if (arqs.length) { e.preventDefault(); adicionarArquivos(arqs); }
+  });
+
+  /* ================= Início ================= */
+  async function migrarVersaoAntiga() {
+    if (ls.get(CH.migrado)) return;
+    ls.set(CH.migrado, true);
+    const antigo = ls.get('ccf.rascunho.v1');
+    if (antigo && !ls.get(CH.rascunho)) {
+      estado.abertura = antigo.anuncio || '';
+      if (Array.isArray(antigo.cardapios) && antigo.cardapios.length) estado.cardapios = antigo.cardapios.map(c => ({ id: c.id || uid(), titulo: c.titulo || '', itens: c.itens || '' }));
+    }
+    try {
+      const fotosAntigas = await new Promise(res => {
+        const r = indexedDB.open('ccf-divulgacao', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('kv');
+        r.onerror = () => res([]);
+        r.onsuccess = () => {
+          try { const g = r.result.transaction('kv').objectStore('kv').get('fotosRascunho'); g.onsuccess = () => res(g.result || []); g.onerror = () => res([]); }
+          catch { res([]); }
+        };
+      });
+      for (const x of fotosAntigas) {
+        if (!x || !x.blob) continue;
+        const f = { id: novoIdFoto(), blob: x.blob, criadoEm: Date.now(), usadoEm: 0, url: URL.createObjectURL(x.blob) };
+        biblioteca.push(f); await armazem.salvarFoto(f).catch(() => {});
+        if (estado.fotoIds.length < MAX_FOTOS_ARTE) estado.fotoIds.push(f.id);
+      }
+    } catch { /* sem dados antigos */ }
+  }
+
+  async function iniciar() {
+    let podeArquivos = false;
+    try { podeArquivos = !!(navigator.canShare && navigator.canShare({ files: [new File(['x'], 't.png', { type: 'image/png' })] })); } catch { /* sem suporte */ }
+    // No computador não usamos a janela de compartilhar do sistema (ela pede para instalar apps)
+    modoCelular = podeArquivos && window.matchMedia('(pointer: coarse)').matches;
+
+    const r = ls.get(CH.rascunho);
+    if (r) estado = { ...estadoPadrao(), ...r };
+    if (!estado.cardapios || !estado.cardapios.length) estado.cardapios = [novoCardapio()];
+    if (!estado.ajustes) estado.ajustes = {};
+
+    usaPastas = await detectarPastas();
+    let fotos = [], camps = [];
+    try { [fotos, camps] = await Promise.all([armazem.fotos(), armazem.campanhas()]); }
+    catch (e) { console.warn(e); toast('Não consegui ler a pasta “dados”.', 'erro'); }
+    biblioteca = fotos.sort((a, b) => b.criadoEm - a.criadoEm);
+    campanhas = camps;
+    $('#dicaPasta').textContent = usaPastas
+      ? 'Ficam na pasta “dados/fotos” por 7 dias. Você também pode colocar fotos direto nessa pasta.'
+      : 'Ficam guardadas por 7 dias';
+    await limparVencidos();
+    await migrarVersaoAntiga();
+    estado.fotoIds = estado.fotoIds.filter(id => biblioteca.some(f => f.id === id));
+    ls.set(CH.rascunho, estado);
+
+    preencherTudo();
+    renderSemana();
+    mudou(false);
+    const v = ls.get(CH.vista);
+    irPara(['criar', 'whats', 'insta', 'semana'].includes(v) ? v : 'criar');
+  }
+
+  iniciar();
+})();
+</script>
+</body>
+</html>
