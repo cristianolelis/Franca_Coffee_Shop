@@ -1,0 +1,17 @@
+{
+  "name": "Café Casa França – Divulgação",
+  "short_name": "Casa França",
+  "description": "Crie anúncios do cardápio para WhatsApp e Instagram, mesmo sem internet.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2e8d9",
+  "theme_color": "#2a1810",
+  "icons": [
+    { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

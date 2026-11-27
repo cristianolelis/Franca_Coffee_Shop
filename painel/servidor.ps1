@@ -12,7 +12,7 @@ $Dados  = Join-Path $Raiz 'dados'
 $Fotos  = Join-Path $Dados 'fotos'
 $Camps  = Join-Path $Dados 'campanhas'
 $Cards  = Join-Path $Dados 'cardapios'
-$DiasGuardar = 7
+# Nada é apagado automaticamente: só o dono apaga, pelo painel ou pela pasta.
 
 foreach ($d in $Dados, $Fotos, $Camps, $Cards) {
   if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d | Out-Null }
@@ -24,7 +24,7 @@ $Tipos = @{
   '.png' = 'image/png'; '.jpg' = 'image/jpeg'; '.jpeg' = 'image/jpeg'; '.webp' = 'image/webp'
   '.gif' = 'image/gif'; '.bmp' = 'image/bmp'; '.svg' = 'image/svg+xml'; '.woff2' = 'font/woff2'
   '.wasm' = 'application/wasm'; '.gz' = 'application/octet-stream'; '.txt' = 'text/plain; charset=utf-8'
-  '.pdf' = 'application/pdf'
+  '.pdf' = 'application/pdf'; '.webmanifest' = 'application/manifest+json'
 }
 $Epoca = [DateTime]::new(1970, 1, 1, 0, 0, 0, [DateTimeKind]::Utc)
 function Ms([DateTime]$d) { [long]($d.ToUniversalTime() - $Epoca).TotalMilliseconds }
@@ -48,13 +48,6 @@ function Para-Lixeira([string]$caminho, [string]$motivo) {
     } else { return }
     Registrar "$motivo -> Lixeira: $caminho"
   } catch { Registrar "ERRO ao apagar ($motivo): $caminho - $($_.Exception.Message)" }
-}
-
-function Limpar-Antigos {
-  $limite = (Get-Date).AddDays(-$DiasGuardar)
-  Get-ChildItem $Fotos -File -ErrorAction SilentlyContinue | Where-Object { (Idade $_) -lt $limite } | ForEach-Object { Para-Lixeira $_.FullName 'Mais de 7 dias' }
-  Get-ChildItem $Cards -File -ErrorAction SilentlyContinue | Where-Object { (Idade $_) -lt $limite } | ForEach-Object { Para-Lixeira $_.FullName 'Mais de 7 dias' }
-  Get-ChildItem $Camps -Directory -ErrorAction SilentlyContinue | Where-Object { $_.CreationTime -lt $limite } | ForEach-Object { Para-Lixeira $_.FullName 'Mais de 7 dias' }
 }
 
 # Só aceita nome de arquivo simples (sem pastas, sem "..")
@@ -103,7 +96,6 @@ function Atender($ctx) {
 
   switch -Regex ($rota) {
     '^/api/status$' {
-      Limpar-Antigos
       Texto $ctx 200 '{"ok":true,"pastas":true}'; return
     }
     '^/api/fotos$' {
@@ -179,7 +171,6 @@ if (-not $escuta) {
   exit 1
 }
 
-Limpar-Antigos
 $endereco = "http://localhost:$Porta/"
 Write-Host ''
 Write-Host '  Cafe Casa Franca - Painel de Divulgacao' -ForegroundColor Yellow

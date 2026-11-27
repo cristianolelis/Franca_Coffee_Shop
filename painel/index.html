@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#2a1810">
 <title>Painel de Divulgação – Café Casa França</title>
+<!-- App no celular: ícone na tela inicial e uso sem internet -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icones/icone-192.png">
+<link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Casa França">
 <style>
   /* Fontes guardadas na pasta "bibliotecas" (funcionam sem internet) */
   @font-face{font-family:"DM Sans";src:url(bibliotecas/fontes/dm-sans.woff2) format("woff2");font-weight:100 1000;font-display:swap}
@@ -52,7 +60,7 @@
   /* Cabeçalho com toldo */
   header{position:relative;z-index:20;background:var(--espresso);color:var(--creme);background-image:radial-gradient(120% 140% at 15% -60%,rgba(226,176,113,.22),transparent 60%)}
   header::after{content:"";position:absolute;left:0;right:0;top:100%;height:10px;pointer-events:none;background:radial-gradient(circle at 10px 0,var(--espresso) 9.5px,transparent 10px) 0 0/20px 10px repeat-x}
-  .topo{max-width:1100px;margin:0 auto;padding:14px max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .topo{max-width:1100px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 12px max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:12px}
   .marca{display:flex;align-items:center;gap:14px;min-width:0}
   .marca > div:last-child{min-width:0}
   .logo{width:46px;height:46px;border-radius:50%;background:var(--caramelo);color:var(--espresso);display:grid;place-items:center;flex:none;box-shadow:0 0 0 3px var(--espresso),0 0 0 4.5px var(--caramelo-claro)}
@@ -184,7 +192,13 @@
   .ajuste .mini img{width:100%;height:100%;object-fit:cover;display:block}
   .ajuste .mini b{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--caramelo);color:var(--espresso);font-size:11px;display:grid;place-items:center}
   .ajuste .controles{display:grid;gap:6px}
-  .ajuste .mover{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--texto-suave)}
+  .ajuste-reguas{display:grid;gap:2px}
+  .ajuste .mover{display:grid;grid-template-columns:76px minmax(0,1fr) 44px;align-items:center;gap:8px;font-size:12.5px;color:var(--texto-suave)}
+  .ajuste .mover output{font-size:12px;font-weight:700;color:var(--torra);text-align:right}
+  .tamanho-fotos{margin-top:14px;padding:12px;border:1px solid var(--caramelo-claro);border-radius:var(--r-md);background:var(--mel)}
+  .tamanho-fotos .rotulo b{color:var(--torra)}
+  .linha-regua{display:flex;align-items:center;gap:8px}
+  .linha-regua input{flex:1;min-width:0}
   .seg{display:inline-flex;background:var(--espuma);border:1px solid var(--linha);border-radius:var(--r-pill);padding:3px;gap:2px;justify-self:start}
   .seg button{background:transparent;color:var(--cacau);font-size:13px;font-weight:600;padding:6px 12px;border-radius:var(--r-pill)}
   .seg button[aria-pressed=true]{background:var(--torra);color:var(--creme)}
@@ -215,10 +229,29 @@
   .etapa p b{color:var(--torra)}
 
   /* Semana */
-  .campanhas{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-top:16px}
+  .banner-app{display:flex;align-items:center;gap:12px;background:var(--espresso);color:var(--creme);border-radius:var(--r-lg);padding:10px 10px 10px 12px;margin-bottom:16px;box-shadow:var(--sombra-2)}
+  .banner-app img{width:42px;height:42px;border-radius:10px;flex:none}
+  .banner-app p{margin:0;flex:1;font-size:13.5px;line-height:1.4}
+  .banner-app b{color:var(--mel)}
+  .banner-app .btn-icone{color:var(--creme)}
+  .banner-app .btn-icone:hover{background:rgba(255,255,255,.12);color:#fff}
+  .semana-lista{display:grid;gap:22px;margin-top:18px}
+  .filtro-periodo button{font-size:14px;padding:8px 14px;white-space:nowrap}
+  @media(max-width:520px){.filtro-periodo{display:flex;width:100%}.filtro-periodo button{flex:1;padding:9px 4px;font-size:13.5px}}
+  .filtro-periodo .cont{display:inline-grid;place-items:center;min-width:22px;height:20px;padding:0 6px;margin-left:4px;border-radius:10px;background:var(--mel);color:var(--torra);font-size:11.5px;font-weight:800}
+  .filtro-periodo button[aria-pressed=true] .cont{background:var(--caramelo);color:var(--espresso)}
+  .camp-data{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--torra);color:var(--creme)}
+  .camp-data svg.i{width:16px;height:16px;color:var(--caramelo-claro)}
+  .camp-data b{font-family:var(--f-titulo);font-size:17px;line-height:1}
+  .camp-data span{margin-left:auto;font-size:13px;font-weight:600;color:var(--mel)}
+  .camp.hoje .camp-data{background:var(--caramelo);color:var(--espresso)}
+  .camp.hoje .camp-data svg.i,.camp.hoje .camp-data span{color:var(--espresso)}
+  .dia-cab{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:0 4px 8px;border-bottom:2px solid var(--caramelo-claro);margin-bottom:12px}
+  .dia-cab h3{font-family:var(--f-titulo);font-size:19px;color:var(--torra);margin:0}
+  .campanhas{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
   .camp{background:var(--espuma);border:1px solid var(--linha);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sombra-2);display:flex;flex-direction:column}
   .camp.atual{border-color:var(--caramelo);box-shadow:0 0 0 3px rgba(184,116,47,.3),var(--sombra-2)}
-  .camp img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--creme);display:block}
+  .camp img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;background:var(--creme);display:block}
   .camp-corpo{padding:12px 14px;display:grid;gap:6px;flex:1}
   .camp h3{font-family:var(--f-titulo);font-size:16px;line-height:1.25;margin:0;color:var(--torra);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .meta{font-size:12px;color:var(--texto-suave)}
@@ -300,8 +333,8 @@
     </div>
     <div class="acoes-topo">
       <button type="button" class="btn-topo limpar" data-acao="limpar-tudo" title="Limpa chamada, cardápio, fotos escolhidas e legenda"><svg class="i"><use href="#i-eraser"/></svg><span>Limpar tudo</span></button>
-      <button type="button" class="btn-topo" data-acao="salvar" title="Guarda esta campanha na aba Semana"><svg class="i"><use href="#i-save"/></svg><span>Salvar</span></button>
-      <button type="button" class="btn-topo" data-acao="nova" title="Guarda a atual na aba Semana e começa outra"><svg class="i"><use href="#i-new"/></svg><span>Nova campanha</span></button>
+      <button type="button" class="btn-topo" data-acao="salvar" title="Guarda este post na aba Posts"><svg class="i"><use href="#i-save"/></svg><span>Salvar</span></button>
+      <button type="button" class="btn-topo" data-acao="nova" title="Guarda o post atual na aba Posts e começa outro"><svg class="i"><use href="#i-new"/></svg><span>Nova campanha</span></button>
     </div>
   </div>
 </header>
@@ -311,11 +344,18 @@
     <button type="button" class="aba" role="tab" data-vista="criar" aria-selected="true"><svg class="i"><use href="#i-edit"/></svg>Criar</button>
     <button type="button" class="aba" role="tab" data-vista="whats" aria-selected="false"><svg class="i"><use href="#i-chat"/></svg>WhatsApp</button>
     <button type="button" class="aba" role="tab" data-vista="insta" aria-selected="false"><svg class="i"><use href="#i-insta"/></svg>Instagram</button>
-    <button type="button" class="aba" role="tab" data-vista="semana" aria-selected="false"><svg class="i"><use href="#i-calendar"/></svg>Semana</button>
+    <button type="button" class="aba" role="tab" data-vista="semana" aria-selected="false"><svg class="i"><use href="#i-calendar"/></svg>Posts</button>
   </div>
 </nav>
 
 <main>
+  <!-- Convite para instalar o app (só aparece no celular, na versão publicada) -->
+  <div class="banner-app oculto" id="bannerApp" role="region" aria-label="Instalar o app">
+    <img src="icones/icone-192.png" alt="">
+    <p id="bannerAppTexto"></p>
+    <button type="button" class="btn-sec" data-acao="instalar-app" id="btnInstalar">Instalar</button>
+    <button type="button" class="btn-icone" data-acao="fechar-banner" aria-label="Fechar aviso"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
 
   <!-- ======================= CRIAR ======================= -->
   <section class="vista ativa" id="v-criar" role="tabpanel">
@@ -388,11 +428,20 @@
           <label class="upload" id="areaUpload">
             <svg class="i"><use href="#i-image"/></svg>
             <strong>Adicionar fotos</strong>
-            <span class="dica" id="dicaPasta">Ficam guardadas por 7 dias</span>
+            <span class="dica" id="dicaPasta">Ficam guardadas até você apagar</span>
             <input id="inputFotos" type="file" accept="image/*" multiple class="sr">
           </label>
           <div id="biblioteca" class="biblioteca"></div>
           <p class="dica oculto" id="dicaFotos" style="margin:10px 0 0">Toque para escolher <b>até 9</b> fotos. Com mais fotos, a arte fica mais comprida.</p>
+          <div class="tamanho-fotos oculto" id="tamanhoFotos">
+            <label class="rotulo" for="tamFotos">Tamanho das fotos no post: <b id="tamFotosValor">100%</b></label>
+            <div class="linha-regua">
+              <span class="dica">Menor</span>
+              <input type="range" id="tamFotos" min="60" max="150" step="5" value="100">
+              <span class="dica">Maior</span>
+              <button type="button" class="btn-limpar" data-acao="tam-padrao" title="Volta ao tamanho automático">Padrão</button>
+            </div>
+          </div>
           <div id="ajustes" class="ajustes"></div>
         </section>
       </div>
@@ -408,7 +457,7 @@
           <span class="rotulo" style="margin:4px 0 0">Seu anúncio</span>
           <img class="arte-img" data-arte="whats" alt="Anúncio gerado">
           <button type="button" class="btn-ir whats" data-vista="whats"><span class="dir"><svg class="i"><use href="#i-chat"/></svg>Enviar no WhatsApp</span><svg class="i"><use href="#i-arrow"/></svg></button>
-          <button type="button" class="btn-claro" data-acao="salvar"><svg class="i"><use href="#i-save"/></svg><span>Salvar na Semana</span></button>
+          <button type="button" class="btn-claro" data-acao="salvar"><svg class="i"><use href="#i-save"/></svg><span>Salvar em Posts</span></button>
           <button type="button" class="btn-ir insta" data-vista="insta"><span class="dir"><svg class="i"><use href="#i-insta"/></svg>Postar no Instagram</span><svg class="i"><use href="#i-arrow"/></svg></button>
         </section>
       </aside>
@@ -459,13 +508,18 @@
 
   <!-- ======================= SEMANA ======================= -->
   <section class="vista" id="v-semana" role="tabpanel">
-    <section class="card">
+    <section class="card pilha">
       <div class="linha-flex">
-        <h2><svg class="i"><use href="#i-calendar"/></svg>Últimos 7 dias</h2>
-        <span class="dica" id="resumoSemana"></span>
+        <h2><svg class="i"><use href="#i-calendar"/></svg>Últimos posts</h2>
+        <div class="seg filtro-periodo" role="group" aria-label="Mostrar posts de quando">
+          <button type="button" data-acao="periodo" data-valor="7" aria-pressed="true">7 dias <span class="cont"></span></button>
+          <button type="button" data-acao="periodo" data-valor="14" aria-pressed="false">14 dias <span class="cont"></span></button>
+          <button type="button" data-acao="periodo" data-valor="todos" aria-pressed="false">Todos <span class="cont"></span></button>
+        </div>
       </div>
+      <span class="dica" id="resumoSemana"></span>
     </section>
-    <div class="campanhas" id="listaCampanhas"></div>
+    <div id="listaCampanhas" class="semana-lista"></div>
   </section>
 </main>
 
@@ -534,7 +588,7 @@
   const estadoPadrao = () => ({
     campanhaId: uid(), abertura: '', cardapios: [novoCardapio()], fotoIds: [],
     ajustes: {},            // por foto: { modo: 'inteira' | 'preencher', foco: 0..100 }
-    modelo: 'oferta', legenda: '', legendaManual: false,
+    modelo: 'oferta', legenda: '', legendaManual: false, tamFotos: 100,
   });
   let estado = estadoPadrao();
   let biblioteca = [];   // { id, blob, criadoEm, usadoEm, url }
@@ -542,7 +596,13 @@
   let alterado = false;
 
   const temConteudo = () => !!(estado.abertura.trim() || estado.fotoIds.length || estado.cardapios.some(c => c.titulo.trim() || c.itens.trim()));
-  const ajusteDe = id => estado.ajustes[id] || { modo: 'inteira', foco: 50 };
+  // Ajuste de cada foto: modo, zoom (100–300%) e posição horizontal/vertical (0–100)
+  // (o campo antigo "foco" de posts já salvos continua valendo para as duas direções)
+  const ajusteDe = id => {
+    const a = estado.ajustes[id] || {};
+    const foco = a.foco ?? 50;
+    return { modo: a.modo || 'inteira', zoom: a.zoom ?? 100, fx: a.fx ?? foco, fy: a.fy ?? foco };
+  };
 
   const el = {
     abertura: $('#abertura'), legenda: $('#legenda'), textoColado: $('#textoColado'),
@@ -1052,8 +1112,10 @@
     return { t: tMin, linhas: cortar(quebrar(ctx, texto, largura), maxL) };
   }
   function caminhoArred(ctx, x, y, w, h, r) {
-    r = Math.min(r, w / 2, h / 2);
-    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.beginPath();
+    if (!(w > 0 && h > 0)) return; // sem espaço: não desenha (evita erro do navegador)
+    r = Math.max(0, Math.min(r, w / 2, h / 2));
+    ctx.moveTo(x + r, y);
     ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
     ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
   }
@@ -1069,10 +1131,10 @@
   const dataArte = () => new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
 
   // Preencher: corta o excesso; "foco" escolhe que parte aparece
-  function preencher(ctx, img, x, y, w, h, foco) {
+  function preencher(ctx, img, x, y, w, h, fx = 50, fy = 50, zoom = 100) {
     const [iw, ih] = dims(img);
-    const s = Math.max(w / iw, h / ih), sw = w / s, sh = h / s;
-    ctx.drawImage(img, (iw - sw) * foco / 100, (ih - sh) * foco / 100, sw, sh, x, y, w, h);
+    const s = Math.max(w / iw, h / ih) * Math.max(1, zoom / 100), sw = w / s, sh = h / s;
+    ctx.drawImage(img, (iw - sw) * fx / 100, (ih - sh) * fy / 100, sw, sh, x, y, w, h);
   }
   // Inteira: mostra a foto toda, com fundo desfocado da própria foto nas sobras
   function inteira(ctx, img, x, y, w, h, fundo) {
@@ -1086,7 +1148,7 @@
     const s = Math.min(w / iw, h / ih), dw = iw * s, dh = ih * s;
     ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
   }
-  const desenharFoto = (ctx, f, x, y, w, h, fundo) => f.aj.modo === 'preencher' ? preencher(ctx, f.img, x, y, w, h, f.aj.foco) : inteira(ctx, f.img, x, y, w, h, fundo);
+  const desenharFoto = (ctx, f, x, y, w, h, fundo) => f.aj.modo === 'preencher' ? preencher(ctx, f.img, x, y, w, h, f.aj.fx, f.aj.fy, f.aj.zoom) : inteira(ctx, f.img, x, y, w, h, fundo);
 
   const filasDe = n => ({ 4: [2, 2], 5: [2, 3], 6: [3, 3], 7: [2, 2, 3], 8: [2, 3, 3], 9: [3, 3, 3] })[n] || [n];
   function alturaFotosLivre(fotos, Wc) {
@@ -1195,15 +1257,22 @@
     return { s, alt };
   }
   // Reparte a altura: "flex" é o bloco de fotos, que cresce ou encolhe
+  // "Tamanho das fotos no post" (60% a 150%) aumenta ou diminui esse bloco
   function planejar(insta, fixo, temFlex, flexPref, menuMedir, fMin, fMax) {
+    const k = (estado.tamFotos || 100) / 100;
     if (insta) {
-      const H = 1350;
-      return { H, flex: temFlex ? Math.round(Math.max(fMin, Math.min(fMax, H - fixo - menuMedir(34)))) : 0 };
+      const H = 1350, alvo = (H - fixo - menuMedir(34)) * k;
+      // Tamanho fixo do Feed: as fotos crescem só até onde o cardápio ainda fica legível
+      const teto = H - fixo - menuMedir(28);
+      let flex = Math.max(fMin * k, Math.min(fMax * k, alvo));
+      flex = Math.min(flex, Math.max(200, teto)); // se faltar espaço, as fotos encolhem (até 200 px)
+      return { H, flex: temFlex ? Math.round(flex) : 0 };
     }
-    let flex = temFlex ? flexPref : 0;
+    let flex = temFlex ? flexPref * k : 0;
     const menu = menuMedir(38), nat = fixo + flex + menu;
-    if (temFlex && nat < 1350) flex = Math.min(flex + (1350 - nat), flex * 1.6);
-    return { H: Math.max(1350, Math.min(4200, Math.round(fixo + flex + menu))), flex: Math.round(flex) };
+    if (temFlex && k >= 1 && nat < 1350) flex = Math.min(flex + (1350 - nat), flex * 1.6);
+    const minimo = k >= 1 ? 1350 : 1080; // fotos menores = post mais curto
+    return { H: Math.max(minimo, Math.min(4200, Math.round(fixo + flex + menu))), flex: Math.round(flex) };
   }
   function estrela(ctx, cx, cy, rFora, rDentro, pontas, cor, giro) {
     ctx.save(); ctx.translate(cx, cy); ctx.rotate(giro);
@@ -1445,15 +1514,17 @@
   async function atualizarMiniaturas() {
     const v = ++versaoMini;
     for (const m of MODELOS_ARTE) {
-      const grande = await desenharArte('insta', m);
-      if (v !== versaoMini) return;
-      const c = document.createElement('canvas');
-      c.width = 300; c.height = 375;
-      c.getContext('2d').drawImage(grande, 0, 0, 300, 375);
-      const b = await canvasParaBlob(c, 'image/jpeg', 0.82);
-      if (urlsMini[m]) URL.revokeObjectURL(urlsMini[m]);
-      urlsMini[m] = URL.createObjectURL(b);
-      $$(`img[data-mini="${m}"]`).forEach(i => { i.src = urlsMini[m]; });
+      try { // um modelo com problema não impede os outros de aparecer
+        const grande = await desenharArte('insta', m);
+        if (v !== versaoMini) return;
+        const c = document.createElement('canvas');
+        c.width = 300; c.height = 375;
+        c.getContext('2d').drawImage(grande, 0, 0, 300, 375);
+        const b = await canvasParaBlob(c, 'image/jpeg', 0.82);
+        if (urlsMini[m]) URL.revokeObjectURL(urlsMini[m]);
+        urlsMini[m] = URL.createObjectURL(b);
+        $$(`img[data-mini="${m}"]`).forEach(i => { i.src = urlsMini[m]; });
+      } catch (e) { console.warn('Miniatura do modelo', m, e); }
     }
   }
   let tArte;
@@ -1463,10 +1534,12 @@
     clearTimeout(tArte);
     tArte = setTimeout(async () => {
       for (const f of ['whats', 'insta']) {
-        const b = await obterArte(f);
-        if (urlArte[f]) URL.revokeObjectURL(urlArte[f]);
-        urlArte[f] = URL.createObjectURL(b);
-        $$(`img[data-arte="${f}"]`).forEach(img => { img.src = urlArte[f]; });
+        try {
+          const b = await obterArte(f);
+          if (urlArte[f]) URL.revokeObjectURL(urlArte[f]);
+          urlArte[f] = URL.createObjectURL(b);
+          $$(`img[data-arte="${f}"]`).forEach(img => { img.src = urlArte[f]; });
+        } catch (e) { console.warn('Arte', f, e); }
       }
     }, 280);
   }
@@ -1559,18 +1632,31 @@
     const l = semFormato(estado.abertura).split('\n').map(s => s.trim()).find(Boolean);
     return l || semFormato(estado.cardapios.map(c => c.titulo.trim()).find(Boolean) || '') || 'Campanha de ' + new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
   }
+  // "Impressão digital" do conteúdo de um post: se mudar, é outro post
+  const assinatura = d => JSON.stringify([
+    (d.abertura || '').trim(),
+    (d.cardapios || []).map(c => [(c.titulo || '').trim(), (c.itens || '').trim()]),
+    d.fotoIds || [], (d.fotoIds || []).map(id => (d.ajustes || {})[id] || null),
+    d.modelo || '', d.tamFotos || 100,
+  ]);
+  // Data e hora com segundos: duas campanhas nunca caem na mesma pasta
+  const carimboPasta = ts => { const d = new Date(ts), p = n => String(n).padStart(2, '0'); return `${carimbo(ts)}${p(d.getSeconds())}`; };
+
   let salvando = Promise.resolve();
   function salvarCampanha(envio = null) {
     salvando = salvando.then(async () => {
       if (!temConteudo()) return;
+      let antiga = campanhas.find(c => c.id === estado.campanhaId);
+      // Conteúdo diferente do que foi salvo = post novo (nunca grava por cima de outro)
+      if (antiga && assinatura(antiga.dados) !== assinatura(estado)) { estado.campanhaId = uid(); antiga = null; }
       const id = estado.campanhaId;
-      const antiga = campanhas.find(c => c.id === id);
       let thumb = null;
-      try { thumb = await reduzir(await obterArte(), 480, 'image/jpeg', 0.82); } catch { /* sem miniatura */ }
+      // Miniatura feita da arte 4:5 (cabe inteira no cartão da Semana)
+      try { thumb = await reduzir(await obterArte('insta'), 480, 'image/jpeg', 0.82); } catch { /* sem miniatura */ }
       const criadoEm = antiga ? antiga.criadoEm : Date.now(), titulo = tituloCampanha();
       let pasta = antiga && antiga.pasta;
       if (!pasta) {
-        pasta = `${carimbo(criadoEm)}_${slug(titulo)}`;
+        pasta = `${carimboPasta(criadoEm)}_${slug(titulo)}`;
         if (campanhas.some(c => c.pasta === pasta)) pasta += '-' + id.slice(-4);
       }
       const reg = {
@@ -1583,8 +1669,9 @@
       const agora = Date.now();
       estado.fotoIds.forEach(fid => { const f = biblioteca.find(x => x.id === fid); if (f) { f.usadoEm = agora; armazem.usarFoto(f).catch(() => {}); } });
       alterado = false;
+      salvarRascunho();
       renderSemana();
-      return true;
+      return antiga ? 'atualizada' : 'nova';
     }).catch(e => {
       console.warn(e);
       toast('Não consegui salvar a campanha. Feche e abra o painel de novo.', 'erro');
@@ -1595,7 +1682,7 @@
   // Limpa o que está sendo preenchido (fotos guardadas e campanhas da semana continuam)
   function limparTudo() {
     if (!temConteudo() && !el.textoColado.value.trim()) { toast('Já está tudo limpo.'); return; }
-    if (!confirm('Limpar chamada, cardápio, fotos escolhidas e legenda?\n\nAs fotos guardadas e as campanhas da aba Semana NÃO são apagadas.')) return;
+    if (!confirm('Limpar chamada, cardápio, fotos escolhidas e legenda?\n\nAs fotos guardadas e os posts da aba Posts NÃO são apagados.')) return;
     estado = { ...estadoPadrao(), modelo: estado.modelo };
     el.textoColado.value = '';
     statusMenu.className = 'status-leitura oculto';
@@ -1608,7 +1695,7 @@
     estado = { ...estadoPadrao(), modelo: estado.modelo };
     preencherTudo(); mudou(false);
     irPara('criar');
-    toast('Nova campanha. A anterior está na aba Semana.');
+    toast('Novo post em branco. O anterior está na aba Posts.');
   }
   async function abrirCampanha(id, comoNova) {
     const reg = campanhas.find(c => c.id === id);
@@ -1616,11 +1703,12 @@
     if (temConteudo() && estado.campanhaId !== id && alterado) await salvarCampanha();
     estado = { ...estadoPadrao(), ...JSON.parse(JSON.stringify(reg.dados)) };
     if (comoNova) estado.campanhaId = uid();
+    if (estado.legenda) estado.legendaManual = true; // mantém a legenda que foi salva com o post
     estado.fotoIds = estado.fotoIds.filter(fid => biblioteca.some(f => f.id === fid));
     if (!estado.cardapios || !estado.cardapios.length) estado.cardapios = [novoCardapio()];
     preencherTudo(); mudou(false);
     irPara('criar');
-    toast(comoNova ? 'Cópia criada. Ajuste e envie de novo!' : 'Campanha aberta.');
+    toast(comoNova ? 'Cópia criada com a data de hoje. Ajuste e envie!' : 'Post aberto. Se mudar algo e salvar, vira um post novo (o original fica guardado).');
   }
   async function apagarCampanha(id) {
     if (!confirm(usaPastas ? 'Apagar esta campanha?\n\nA pasta dela vai para a Lixeira do Windows (dá para recuperar).' : 'Apagar esta campanha?')) return;
@@ -1629,15 +1717,7 @@
     campanhas = campanhas.filter(c => c.id !== id);
     renderSemana();
   }
-  async function limparVencidos() {
-    if (usaPastas) return; // no modo pastas, quem limpa é o próprio servidor ao abrir
-    const agora = Date.now();
-    const vC = campanhas.filter(c => agora - c.criadoEm > SEMANA);
-    const vF = biblioteca.filter(f => agora - idadeFoto(f) > SEMANA);
-    campanhas = campanhas.filter(c => !vC.includes(c));
-    biblioteca = biblioteca.filter(f => !vF.includes(f));
-    await Promise.all([...vC.map(c => dbDel('campanhas', c.id)), ...vF.map(f => dbDel('fotos', f.id))]);
-  }
+  // Nada é apagado automaticamente: posts, fotos e cardápios só saem quando o dono apaga.
 
   /* ================= Renderização ================= */
   function renderCardapios() {
@@ -1664,7 +1744,7 @@
       const d = document.createElement('div');
       d.className = 'bib-item';
       d.innerHTML = `
-        <button type="button" class="bib${pos >= 0 ? ' sel' : ''}" data-acao="foto" data-foto="${f.id}" aria-pressed="${pos >= 0}" aria-label="${pos >= 0 ? 'Foto na arte, posição ' + (pos + 1) : 'Usar foto na arte'}" title="Expira em ${diasRestantes(idadeFoto(f))} dia(s)">
+        <button type="button" class="bib${pos >= 0 ? ' sel' : ''}" data-acao="foto" data-foto="${f.id}" aria-pressed="${pos >= 0}" aria-label="${pos >= 0 ? 'Foto na arte, posição ' + (pos + 1) : 'Usar foto na arte'}" title="Adicionada em ${dataCurta(f.criadoEm)}">
           <img alt=""><span class="ordem">${pos >= 0 ? pos + 1 : ''}</span>
         </button>
         <button type="button" class="bib-x" data-acao="apagar-foto" data-foto="${f.id}" aria-label="Apagar foto"><svg class="i"><use href="#i-x"/></svg></button>`;
@@ -1673,6 +1753,11 @@
     });
     el.contadorFotos.textContent = biblioteca.length ? `${estado.fotoIds.length} na arte` : '';
     el.dicaFotos.classList.toggle('oculto', !biblioteca.length);
+
+    // Tamanho geral das fotos no post
+    $('#tamanhoFotos').classList.toggle('oculto', !estado.fotoIds.length);
+    $('#tamFotos').value = estado.tamFotos || 100;
+    $('#tamFotosValor').textContent = (estado.tamFotos || 100) + '%';
 
     // Ajuste de cada foto escolhida
     el.ajustes.textContent = '';
@@ -1689,7 +1774,11 @@
             <button type="button" data-acao="modo-foto" data-foto="${id}" data-valor="inteira" aria-pressed="${aj.modo === 'inteira'}">Foto inteira</button>
             <button type="button" data-acao="modo-foto" data-foto="${id}" data-valor="preencher" aria-pressed="${aj.modo === 'preencher'}">Preencher</button>
           </div>
-          <label class="mover${aj.modo === 'preencher' ? '' : ' oculto'}">Mover <input type="range" min="0" max="100" value="${aj.foco}" data-foco="${id}" aria-label="Mover a foto ${i + 1}"></label>
+          <div class="ajuste-reguas${aj.modo === 'preencher' ? '' : ' oculto'}">
+            <label class="mover"><span>🔍 Zoom</span><input type="range" min="100" max="300" step="5" value="${aj.zoom}" data-aj="zoom" data-foto="${id}" aria-label="Zoom da foto ${i + 1}"><output>${aj.zoom}%</output></label>
+            <label class="mover"><span>↔ Lado</span><input type="range" min="0" max="100" value="${aj.fx}" data-aj="fx" data-foto="${id}" aria-label="Mover a foto ${i + 1} para os lados"></label>
+            <label class="mover"><span>↕ Altura</span><input type="range" min="0" max="100" value="${aj.fy}" data-aj="fy" data-foto="${id}" aria-label="Mover a foto ${i + 1} para cima ou para baixo"></label>
+          </div>
         </div>`;
       $('img', d).src = f.url;
       el.ajustes.append(d);
@@ -1725,25 +1814,61 @@
   }
 
   const urlsThumb = new Map();
+  const chaveDia = ts => { const d = new Date(ts); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+  const hora = ts => new Date(ts).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  // Data do card: "Hoje", "Ontem" ou o dia da semana, e embaixo a data e a hora
+  function dataDoCard(ts) {
+    const d = new Date(ts), k = chaveDia(ts);
+    const titulo = k === chaveDia(Date.now()) ? 'Hoje' : k === chaveDia(Date.now() - DIA) ? 'Ontem'
+      : (s => s[0].toUpperCase() + s.slice(1))(d.toLocaleDateString('pt-BR', { weekday: 'long' }));
+    const ano = d.getFullYear() !== new Date().getFullYear() ? '/' + d.getFullYear() : '';
+    return { titulo, data: `${d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}${ano} · ${hora(ts)}`, hoje: k === chaveDia(Date.now()) };
+  }
+  // Início do dia de N dias atrás (contando hoje): 7 dias = hoje e os 6 anteriores
+  const inicioPeriodo = n => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime() - (n - 1) * DIA; };
+  let filtroPosts = ['7', '14', 'todos'].includes(ls.get('ccf2.periodo')) ? ls.get('ccf2.periodo') : '7';
+
+  // Últimos posts: do mais novo para o mais antigo. Nada é apagado automaticamente.
   function renderSemana() {
-    campanhas.sort((a, b) => b.atualizadoEm - a.atualizadoEm);
-    const n = campanhas.length;
-    el.resumoSemana.textContent = n ? `${n} campanha${n > 1 ? 's' : ''} · apagadas sozinhas após 7 dias` : 'Campanhas ficam aqui por 7 dias';
+    campanhas.sort((a, b) => b.criadoEm - a.criadoEm);
+    const total = campanhas.length;
+    const noPeriodo = p => p === 'todos' ? campanhas : campanhas.filter(c => c.criadoEm >= inicioPeriodo(+p));
+    $$('[data-acao="periodo"]').forEach(b => {
+      b.setAttribute('aria-pressed', String(b.dataset.valor === filtroPosts));
+      $('.cont', b).textContent = noPeriodo(b.dataset.valor).length;
+    });
+    const lista = noPeriodo(filtroPosts);
+    const nomePeriodo = filtroPosts === 'todos' ? 'no total' : `nos últimos ${filtroPosts} dias`;
+    el.resumoSemana.textContent = total
+      ? `${lista.length} post${lista.length === 1 ? '' : 's'} ${nomePeriodo}${filtroPosts !== 'todos' ? ` (de ${total} guardados)` : ''}. Nada é apagado sozinho: para apagar um post, use a lixeira dele.`
+      : 'Os posts ficam guardados aqui até você apagar.';
     urlsThumb.forEach(u => URL.revokeObjectURL(u)); urlsThumb.clear();
     el.listaCampanhas.textContent = '';
-    if (!n) {
-      el.listaCampanhas.innerHTML = '<div class="card vazio-grande">Nenhuma campanha ainda. Elas aparecem aqui quando você envia.</div>';
+    if (!total) {
+      el.listaCampanhas.innerHTML = '<div class="card vazio-grande">Nenhum post ainda. Eles aparecem aqui quando você salva ou envia.</div>';
       return;
     }
-    campanhas.forEach(c => {
+    if (!lista.length) {
+      el.listaCampanhas.innerHTML = `<div class="card vazio-grande">Nenhum post ${nomePeriodo}.<br>Toque em <b>${filtroPosts === '7' ? '14 dias' : 'Todos'}</b> para ver os mais antigos.</div>`;
+      return;
+    }
+    const grade = document.createElement('div');
+    grade.className = 'campanhas';
+    lista.forEach(c => grade.append(cartaoCampanha(c)));
+    el.listaCampanhas.append(grade);
+  }
+  function cartaoCampanha(c) {
       const d = document.createElement('article');
-      d.className = 'camp' + (c.id === estado.campanhaId ? ' atual' : '');
+      const dt = dataDoCard(c.criadoEm);
+      d.className = 'camp' + (c.id === estado.campanhaId ? ' atual' : '') + (dt.hoje ? ' hoje' : '');
       const e = c.envios || {};
+      const editado = c.atualizadoEm - c.criadoEm > 60000 ? `Atualizado ${chaveDia(c.atualizadoEm) === chaveDia(c.criadoEm) ? 'às ' + hora(c.atualizadoEm) : 'em ' + dataCurta(c.atualizadoEm)}` : '';
       d.innerHTML = `
+        <div class="camp-data"><svg class="i"><use href="#i-calendar"/></svg><b>${dt.titulo}</b><span>${dt.data}</span></div>
         <img alt="">
         <div class="camp-corpo">
           <h3></h3>
-          <div class="meta">${dataCurta(c.atualizadoEm)}</div>
+          ${editado ? `<div class="meta">${editado}</div>` : ''}
           <div class="selos">
             <span class="selo${e.whatsapp ? ' ok' : ''}">${e.whatsapp ? '✓ ' : ''}WhatsApp</span>
             <span class="selo${e.instagram ? ' ok' : ''}">${e.instagram ? '✓ ' : ''}Instagram</span>
@@ -1757,8 +1882,7 @@
       $('h3', d).textContent = c.titulo;
       if (c.thumb) { const u = URL.createObjectURL(c.thumb); urlsThumb.set(c.id, u); $('img', d).src = u; }
       else if (c.thumbUrl) $('img', d).src = c.thumbUrl;
-      el.listaCampanhas.append(d);
-    });
+      return d;
   }
 
   function preencherTudo() {
@@ -1827,8 +1951,13 @@
     const t = e.target;
     if (t === el.abertura) estado.abertura = t.value;
     else if (t === el.legenda) { estado.legenda = t.value; estado.legendaManual = true; salvarRascunho(); return; }
-    else if (t.dataset && t.dataset.foco) {
-      estado.ajustes[t.dataset.foco] = { ...ajusteDe(t.dataset.foco), foco: +t.value };
+    else if (t.dataset && t.dataset.aj) {
+      const { foco, ...resto } = { ...(estado.ajustes[t.dataset.foto] || {}), ...ajusteDe(t.dataset.foto) };
+      estado.ajustes[t.dataset.foto] = { ...resto, [t.dataset.aj]: +t.value };
+      if (t.dataset.aj === 'zoom') t.nextElementSibling.textContent = t.value + '%';
+    } else if (t.id === 'tamFotos') {
+      estado.tamFotos = +t.value;
+      $('#tamFotosValor').textContent = t.value + '%';
     } else if (t.dataset && t.dataset.campo) {
       const card = t.closest('[data-id]');
       const c = card && estado.cardapios.find(x => x.id === card.dataset.id);
@@ -1847,10 +1976,12 @@
       case 'limpar-tudo': limparTudo(); break;
       case 'salvar':
         if (!temConteudo()) { toast('Nada para salvar ainda.', 'erro'); break; }
-        salvarCampanha().then(ok => {
-          if (!ok) return;
+        salvarCampanha().then(r => {
+          if (!r) return;
           $$('[data-acao="salvar"]').forEach(x => marcarOk(x, 'Salvo!'));
-          toast(usaPastas ? 'Salva na aba Semana e na pasta “dados/campanhas” ✅' : 'Salva na aba Semana ✅');
+          toast(r === 'nova'
+            ? 'Novo post salvo na aba Posts ✅'
+            : 'Post atualizado na aba Posts ✅ (era o mesmo conteúdo)');
         });
         break;
       case 'limpar-chamada':
@@ -1887,6 +2018,19 @@
       }
       case 'foto': alternarFoto(b.dataset.foto); break;
       case 'apagar-foto': apagarFoto(b.dataset.foto); break;
+      case 'instalar-app':
+        if (pedidoInstalar) {
+          pedidoInstalar.prompt();
+          pedidoInstalar.userChoice.then(r => { if (r.outcome === 'accepted') $('#bannerApp').classList.add('oculto'); });
+          pedidoInstalar = null;
+        }
+        break;
+      case 'fechar-banner':
+        $('#bannerApp').classList.add('oculto'); ls.set('ccf2.bannerFechado', true); break;
+      case 'periodo':
+        filtroPosts = b.dataset.valor; ls.set('ccf2.periodo', filtroPosts); renderSemana(); break;
+      case 'tam-padrao':
+        estado.tamFotos = 100; renderFotos(); mudou(); break;
       case 'modo-foto':
         estado.ajustes[b.dataset.foto] = { ...ajusteDe(b.dataset.foto), modo: b.dataset.valor };
         renderFotos(); mudou(); break;
@@ -1946,6 +2090,27 @@
     } catch { /* sem dados antigos */ }
   }
 
+  /* ================= App no celular =================
+     Na versão publicada (https) o painel vira app: instala na tela inicial e
+     funciona sem internet. No computador ("Abrir Painel") isso fica desligado. */
+  const ehPublicado = location.protocol === 'https:' || new URLSearchParams(location.search).has('app');
+  if ('serviceWorker' in navigator && ehPublicado) navigator.serviceWorker.register('sw.js').catch(e => console.warn('App offline', e));
+  const jaInstalado = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  let pedidoInstalar = null;
+  function mostrarBannerApp(html, comBotao) {
+    if (jaInstalado || ls.get('ccf2.bannerFechado')) return;
+    $('#bannerAppTexto').innerHTML = html;
+    $('#btnInstalar').classList.toggle('oculto', !comBotao);
+    $('#bannerApp').classList.remove('oculto');
+  }
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault(); pedidoInstalar = e;
+    mostrarBannerApp('<b>Instale o app</b> no celular: abre com um toque e funciona sem internet.', true);
+  });
+  if (ehPublicado && /iphone|ipad|ipod/i.test(navigator.userAgent))
+    mostrarBannerApp('<b>Instale o app:</b> toque em <b>Compartilhar</b> e depois em <b>“Adicionar à Tela de Início”</b>.', false);
+  window.addEventListener('appinstalled', () => { $('#bannerApp').classList.add('oculto'); toast('App instalado ✅ Procure o ícone “Casa França”.'); });
+
   async function iniciar() {
     let podeArquivos = false;
     try { podeArquivos = !!(navigator.canShare && navigator.canShare({ files: [new File(['x'], 't.png', { type: 'image/png' })] })); } catch { /* sem suporte */ }
@@ -1964,9 +2129,8 @@
     biblioteca = fotos.sort((a, b) => b.criadoEm - a.criadoEm);
     campanhas = camps;
     $('#dicaPasta').textContent = usaPastas
-      ? 'Ficam na pasta “dados/fotos” por 7 dias. Você também pode colocar fotos direto nessa pasta.'
-      : 'Ficam guardadas por 7 dias';
-    await limparVencidos();
+      ? 'Ficam guardadas na pasta “dados/fotos”. Você também pode colocar fotos direto nessa pasta.'
+      : 'Ficam guardadas até você apagar';
     await migrarVersaoAntiga();
     estado.fotoIds = estado.fotoIds.filter(id => biblioteca.some(f => f.id === id));
     ls.set(CH.rascunho, estado);

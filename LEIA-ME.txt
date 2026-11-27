@@ -13,11 +13,30 @@ Funciona sem internet e não tem nenhum custo.
 (A internet só é necessária na hora de enviar no WhatsApp Web ou no Instagram.)
 
 
+NO CELULAR (como app)
+1. Abra no celular: https://cristianolelis.github.io/Franca_Coffee_Shop/
+2. Android (Chrome): toque em "Instalar" na faixa do alto (ou no menu ⋮ >
+   "Instalar app"). iPhone (Safari): toque em Compartilhar > "Adicionar à
+   Tela de Início".
+3. Pronto: o ícone "Casa França" aparece na tela inicial e funciona sem internet.
+No celular, os posts e as fotos ficam guardados no próprio celular
+(separados do computador).
+
+
 COMO USAR (aba "Criar")
 1. Suba ou cole o cardápio (foto, PDF, Word ou o texto do WhatsApp) e toque em "Montar post".
-2. Escolha as fotos (até 9).
+2. Escolha as fotos (até 9). Use "Tamanho das fotos no post" para aumentar ou
+   diminuir as fotos e, em cada foto, "Preencher" com Zoom, Lado e Altura.
 3. Escolha um dos 3 modelos de anúncio: Oferta relâmpago, Destaque do dia ou Cardápio café.
 4. Vá na aba "WhatsApp" ou "Instagram" e siga os passos na tela.
+5. Toque em "Salvar" para guardar o post na aba "Posts".
+
+ABA "POSTS"
+  Mostra os posts salvos, do mais novo para o mais antigo, com a data em cima.
+  Use os botões "7 dias", "14 dias" ou "Todos" para escolher o período.
+  "Abrir" carrega o post para ver ou mudar; se mudar algo e salvar, vira um
+  post novo e o original continua guardado.
+  "Usar de novo" cria uma cópia com a data de hoje.
 
 
 ONDE FICA CADA COISA (pasta "dados")
@@ -26,8 +45,9 @@ ONDE FICA CADA COISA (pasta "dados")
                          arte-whatsapp.png, arte-instagram.png e legenda-instagram.txt
   dados/cardapios   -> os cardápios que você subiu
 
-Fotos, campanhas e cardápios são apagados sozinhos depois de 7 dias.
-Para guardar algo por mais tempo, copie para outra pasta.
+NADA É APAGADO SOZINHO. Fotos, posts e cardápios ficam guardados até você
+apagar: pela lixeira do post na aba "Posts", pelo "X" da foto ou pela pasta.
+O que é apagado pelo painel vai para a Lixeira do Windows (dá para recuperar).
 
 Para fazer backup ou levar para outro computador: copie a pasta inteira
 "Painel-Cafe-Casa-Franca".
